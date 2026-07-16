@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class', // 🌓 KRITIKUS FIX AZ ÉJSZAKAI MÓDHOZ!
             theme: {
                 extend: {
                     colors: {
@@ -63,7 +64,7 @@
         }
     </style>
 </head>
-<body class="bg-brand-dark text-slate-100 min-h-screen">
+<body class="bg-slate-50 dark:bg-brand-dark text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-200">
 
     <div id="root"></div>
 
@@ -108,7 +109,7 @@
                 </svg>
             ),
             Info: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-cyan-400" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-1 9a1 1 0 100-2v-3a1 1 0 00-1-1H9a1 1 0 100 2v3a1 1 0 001 1h1z" clipRule="evenodd" />
                 </svg>
             ),
@@ -126,72 +127,69 @@
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
+            ),
+            Sun: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M14 12a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+            ),
+            Moon: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
             )
         };
 
         const INITIAL_DASHBOARD_STATE = {
             clientName: "Kedves Ügyfelünk",
-            driveLink: "https://drive.google.com",
+            driveLink: "",
             kpis: {
-                mainGoal: "Q3 Értékesítési árbevétel növelése",
-                metricName: "ROAS (Hirdetési megtérülés)",
-                target: 4.5,
-                current: 3.8,
+                mainGoal: "",
+                metricName: "",
+                target: 0,
+                current: 0,
+                previous: 0,
+                interval: "Heti",
                 unit: "x",
-                notes: "Fő fókusz a kosárérték növelésén és a remarketing kampányokon van."
+                notes: ""
             },
             completedKpis: [],
-            timeline: [
-                { id: 't1', month: 6, title: 'Nyári kampányok indítása', type: 'agency', desc: 'Nyári akciók és friss UGC kreatív szettek élesítése.', assignee: 'Ügynökség / Gábor' },
-                { id: 't2', month: 8, title: 'Black Friday előkészületek', type: 'joint', desc: 'Ajánlatok véglegesítése és landoló oldalak fejlesztése.', assignee: 'Közös / Anna & Gábor' },
-                { id: 't3', month: 10, title: 'Karácsonyi kampányok indítása', type: 'agency', desc: 'Szezonális kreatívok és megemelt büdzsék.', assignee: 'Ügynökség / Dávid' }
-            ],
-            tasks: [
-                { id: 'task-1', title: 'Új Meta kreatív koncepciók jóváhagyása', assignee: 'Kovács Péter (Ügyfél)', dueDate: '2026-07-20', notes: 'Figma linket elküldtük emailben, a videós teszteké a fókusz.', completed: false },
-                { id: 'task-2', title: 'CAPI (Facebook Conversions API) javítása', assignee: 'Dávid (Ügynökség)', dueDate: '2026-07-18', notes: 'Szerveroldali események finomhangolása.', completed: true },
-                { id: 'task-3', title: 'Bestseller terméklista frissítése', assignee: 'Kata (Ügyfél)', dueDate: '2026-07-22', notes: 'Hogy kiszűrjük az elfogyott termékeket a katalógusból.', completed: false },
-                { id: 'task-4', title: 'Heti riportálás és optimalizálási javaslatok', assignee: 'Anna (Ügynökség)', dueDate: '2026-07-24', notes: 'Heti statisztikák kiértékelése.', completed: false }
-            ],
+            timeline: [],
+            tasks: [],
             creatives: {
                 best: {
-                    title: "UGC Videó - Unboxing & Vélemény",
-                    url: "https://www.facebook.com/ads/library/?id=1052736392044",
+                    title: "",
+                    url: "",
                     imageUrl: "",
-                    previewMode: "media",
                     creativeId: "",
                     accessToken: "",
                     adFormat: "MOBILE_FEED_STANDARD",
-                    ctr: 3.42,
-                    roas: 5.1,
-                    conclusions: "Az influencer videó 3x több konverziót hozott, mint a stúdiófotók.",
-                    recommendations: "További 3 horgos UGC videó tesztelése eltérő hangvétellel."
+                    ctr: 0,
+                    roas: 0,
+                    conclusions: "",
+                    recommendations: ""
                 },
                 worst: {
-                    title: "Statikus Akciós Banner (Grafika)",
-                    url: "https://www.facebook.com/ads/library/?id=123456789",
+                    title: "",
+                    url: "",
                     imageUrl: "",
-                    previewMode: "media",
                     creativeId: "",
                     accessToken: "",
                     adFormat: "MOBILE_FEED_STANDARD",
-                    ctr: 0.85,
-                    roas: 1.2,
-                    conclusions: "A túlzsúfolt szöveg miatt a hirdetés banner-vakság áldozata lett.",
-                    recommendations: "Azonnali leállítás. Helyette termékfókuszú carousel formátum tesztelése."
+                    ctr: 0,
+                    roas: 0,
+                    conclusions: "",
+                    recommendations: ""
                 }
             },
-            agenda: [
-                { id: 'ag-1', text: 'Q3 költségkeret átcsoportosítása a legjobban teljesítő célközönségekre', completed: false },
-                { id: 'ag-2', text: 'Új termékbevezetési ütemterv egyeztetése (Őszi kollekció)', completed: false },
-                { id: 'ag-3', text: 'Kreatív gyártási folyamat felgyorsítása az ügyféllel', completed: false }
-            ],
+            agenda: [],
             monthlyAnalysis: {
-                fbAds: "Hirdetési fiókunk jól skálázódott a hónapban, de a CPA emelkedni kezdett a meleg célközönségeknél.",
-                fbSuggestions: "Új hasonmás (Lookalike) célközönségek indítása a korábbi vásárlók alapján, és 2 új videós kreatív tesztelése.",
-                googleAds: "A PMax kampányok stabilan hozták a konverziókat, a Keresési kampányok azonban alulteljesítettek.",
-                googleSuggestions: "A gyengén teljesítő kulcsszavak kizárása, és a márkás (branded) kampányok költségkeretének emelése.",
-                detailedAnalysisUrl: "https://lookerstudio.google.com/",
-                invoicesUrl: "https://drive.google.com"
+                fbAds: "",
+                fbSuggestions: "",
+                googleAds: "",
+                googleSuggestions: "",
+                detailedAnalysisUrl: "",
+                invoicesUrl: ""
             }
         };
 
@@ -200,7 +198,6 @@
             "Július", "Augusztus", "Szeptember", "Október", "November", "December"
         ];
 
-        // Szigorú tömbbé alakító a Firebase Realtime Database objektum-tömb anomáliáira
         const firebaseArrayToArray = (val) => {
             if (!val) return [];
             if (Array.isArray(val)) return val.filter(Boolean);
@@ -223,6 +220,8 @@
                     metricName: value.kpis?.metricName || "",
                     target: Number(value.kpis?.target ?? 0),
                     current: Number(value.kpis?.current ?? 0),
+                    previous: Number(value.kpis?.previous ?? 0),
+                    interval: value.kpis?.interval || "Heti",
                     unit: value.kpis?.unit || "x",
                     notes: value.kpis?.notes || ""
                 },
@@ -248,7 +247,6 @@
                         title: value.creatives?.best?.title || "",
                         url: value.creatives?.best?.url || "",
                         imageUrl: value.creatives?.best?.imageUrl || "",
-                        previewMode: value.creatives?.best?.previewMode || "media",
                         creativeId: value.creatives?.best?.creativeId || "",
                         accessToken: value.creatives?.best?.accessToken || "",
                         adFormat: value.creatives?.best?.adFormat || "MOBILE_FEED_STANDARD",
@@ -261,7 +259,6 @@
                         title: value.creatives?.worst?.title || "",
                         url: value.creatives?.worst?.url || "",
                         imageUrl: value.creatives?.worst?.imageUrl || "",
-                        previewMode: value.creatives?.worst?.previewMode || "media",
                         creativeId: value.creatives?.worst?.creativeId || "",
                         accessToken: value.creatives?.worst?.accessToken || "",
                         adFormat: value.creatives?.worst?.adFormat || "MOBILE_FEED_STANDARD",
@@ -292,13 +289,18 @@
             const [loading, setLoading] = useState(true);
             const [syncStatus, setSyncStatus] = useState("checking");
             const [firebaseError, setFirebaseError] = useState("");
+            const [darkMode, setDarkMode] = useState(() => {
+                const saved = localStorage.getItem('nexus_dark_mode');
+                return saved ? saved === 'true' : true; 
+            });
             
             // UI szerkesztési módok
             const [isEditingClient, setIsEditingClient] = useState(false);
             const [isEditingDrive, setIsEditingDrive] = useState(false);
-            
-            // Útmutató harmonika állapota
-            const [showAdGuide, setShowAdGuide] = useState(false);
+
+            // Dinamikus API / Mockup adatok a Meta Graph API lekérdezéséhez 🚀
+            const [bestMetaStatus, setBestMetaStatus] = useState({ loading: false, error: "", success: false, data: null });
+            const [worstMetaStatus, setWorstMetaStatus] = useState({ loading: false, error: "", success: false, data: null });
             
             const [toast, setToast] = useState({ show: false, message: "", type: "info" });
             const showToast = (message, type = "info") => {
@@ -315,9 +317,16 @@
             const [taskFilter, setTaskFilter] = useState("all");
             const [taskSearchAssignee, setTaskSearchAssignee] = useState("");
 
-            // Dinamikus Open Graph link preview adatok (Microlink API alapon)
-            const [bestOgPreview, setBestOgPreview] = useState(null);
-            const [worstOgPreview, setWorstOgPreview] = useState(null);
+            // Sötét/Világos mód szinkronizálása a DOM-mal
+            useEffect(() => {
+                const root = window.document.documentElement;
+                if (darkMode) {
+                    root.classList.add('dark');
+                } else {
+                    root.classList.remove('dark');
+                }
+                localStorage.setItem('nexus_dark_mode', darkMode);
+            }, [darkMode]);
 
             useEffect(() => {
                 let isMounted = true;
@@ -360,17 +369,22 @@
                             if (!isMounted) return;
 
                             if (currentUser) {
-                                const dbRef = db.ref('nexus_marketing/global_syncboard_state');
+                                const dbRef = db.ref('nexus_marketing/global_syncboard_state_v2');
                                 
                                 dbRef.on('value', 
                                     (snapshot) => {
                                         if (timeoutId) clearTimeout(timeoutId);
                                         const value = snapshot.val();
                                         if (value) {
-                                            setDbState(safeParseState(value));
+                                            try {
+                                                const parsed = typeof value === 'string' ? JSON.parse(value) : value;
+                                                setDbState(safeParseState(parsed));
+                                            } catch(e) {
+                                                setDbState(safeParseState(value));
+                                            }
                                         } else {
-                                            dbRef.set(INITIAL_DASHBOARD_STATE).catch(err => {
-                                                setFirebaseError("Adatbázis írás megtagadva (Permission Denied).");
+                                            dbRef.set(JSON.stringify(INITIAL_DASHBOARD_STATE)).catch(err => {
+                                                setFirebaseError("Adatbázis írás megtagadva.");
                                             });
                                             setDbState(INITIAL_DASHBOARD_STATE);
                                         }
@@ -406,61 +420,185 @@
                 };
             }, []);
 
-            // Best Creative Open Graph betöltő
+            // 🎯 METADATA GRAPH API MOCKUP ENGINE - TOP HIRDETÉS (Best)
             useEffect(() => {
-                const fetchOg = async () => {
-                    const url = dbState.creatives?.best?.url;
-                    if (!url || !url.startsWith("http")) {
-                        setBestOgPreview(null);
-                        return;
-                    }
-                    try {
-                        const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
-                        if (res.ok) {
-                            const json = await res.json();
-                            if (json.status === "success" && json.data) {
-                                setBestOgPreview({
-                                    title: json.data.title || "",
-                                    description: json.data.description || "",
-                                    image: json.data.image?.url || json.data.logo?.url || "",
-                                    publisher: json.data.publisher || ""
-                                });
-                            }
-                        }
-                    } catch (e) {
-                        console.error("Nem sikerült lekérni a Meta hirdetés Open Graph adatait", e);
-                    }
-                };
-                fetchOg();
-            }, [dbState.creatives?.best?.url]);
+                let active = true;
+                const cid = dbState.creatives?.best?.creativeId;
+                const token = dbState.creatives?.best?.accessToken;
+                const directUrl = dbState.creatives?.best?.imageUrl;
 
-            // Worst Creative Open Graph betöltő
-            useEffect(() => {
-                const fetchOg = async () => {
-                    const url = dbState.creatives?.worst?.url;
-                    if (!url || !url.startsWith("http")) {
-                        setWorstOgPreview(null);
-                        return;
-                    }
-                    try {
-                        const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
-                        if (res.ok) {
-                            const json = await res.json();
-                            if (json.status === "success" && json.data) {
-                                setWorstOgPreview({
-                                    title: json.data.title || "",
-                                    description: json.data.description || "",
-                                    image: json.data.image?.url || json.data.logo?.url || "",
-                                    publisher: json.data.publisher || ""
+                // 🚀 Ha van közvetlen kép vagy videó link beillesztve, AZONNAL elfogadjuk és megkerüljük a Meta API hívást!
+                if (directUrl && directUrl.trim() !== "") {
+                    setBestMetaStatus({
+                        loading: false,
+                        error: "",
+                        success: true,
+                        data: {
+                            title: dbState.creatives?.best?.title || "Éles hirdetés",
+                            body: dbState.creatives?.best?.conclusions || "",
+                            imageUrl: directUrl,
+                            videoUrl: directUrl.toLowerCase().includes(".mp4") || directUrl.toLowerCase().includes(".webm") || directUrl.includes("fbcdn.net") ? directUrl : ""
+                        }
+                    });
+                    return;
+                }
+
+                if (!cid || !token || cid.length < 10) {
+                    setBestMetaStatus({ loading: false, error: "", success: false, data: null });
+                    return;
+                }
+
+                setBestMetaStatus(prev => ({ ...prev, loading: true, error: "", data: null }));
+
+                const delayDebounceFn = setTimeout(() => {
+                    // Lekérjük a kreatív részleteit - kizárólag a legstabilabb hirdetési média forrásokat!
+                    fetch(`https://graph.facebook.com/v20.0/${cid}?access_token=${token}&fields=image_url,thumbnail_url,video_id`)
+                        .then(async (res) => {
+                            if (!res.ok) {
+                                const errJson = await res.json().catch(() => ({}));
+                                throw errJson;
+                            }
+                            return res.json();
+                        })
+                        .then(async (data) => {
+                            if (!active) return;
+                            
+                            let parsedData = {
+                                title: dbState.creatives?.best?.title || "Hirdetés részletei",
+                                body: dbState.creatives?.best?.conclusions || "Aktív Meta hirdetéskreatív előnézet.",
+                                imageUrl: data.image_url || data.thumbnail_url || "",
+                                videoUrl: ""
+                            };
+
+                            const videoId = data.video_id;
+                            if (videoId) {
+                                try {
+                                    const vidRes = await fetch(`https://graph.facebook.com/v20.0/${videoId}?access_token=${token}&fields=source`);
+                                    if (vidRes.ok) {
+                                        const vidData = await vidRes.json();
+                                        parsedData.videoUrl = vidData.source || "";
+                                    }
+                                } catch (e) {
+                                    console.error("Hiba a videó forrás letöltésekor:", e);
+                                }
+                            }
+
+                            if (active) {
+                                setBestMetaStatus({
+                                    loading: false,
+                                    error: "",
+                                    success: true,
+                                    data: parsedData
                                 });
                             }
-                        }
-                    } catch (e) {
-                        console.error("Nem sikerült lekérni a Meta hirdetés Open Graph adatait", e);
-                    }
+                        })
+                        .catch((err) => {
+                            console.error("Meta Graph API Error (Best):", err);
+                            let msg = err?.error?.message || "Hálózati hiba a Meta API-val való kapcsolat során.";
+                            if (err?.error?.code === 190) {
+                                msg = "Érvénytelen vagy lejárt Access Token! (Kód: 190). Generálj újat a Meta fejlesztői felületén.";
+                            } else if (err?.error?.code === 100 || msg.includes("Unsupported get request") || err?.error?.code === 12) {
+                                msg = "A hirdetés típusa miatt a Facebook API letiltotta a közvetlen lekérdezést. Használd a lenti Média Link kerülőutat!";
+                            }
+                            if (active) setBestMetaStatus({ loading: false, error: msg, success: false, data: null });
+                        });
+                }, 1000);
+
+                return () => {
+                    active = false;
+                    clearTimeout(delayDebounceFn);
                 };
-                fetchOg();
-            }, [dbState.creatives?.worst?.url]);
+            }, [dbState.creatives?.best?.creativeId, dbState.creatives?.best?.accessToken, dbState.creatives?.best?.imageUrl, dbState.creatives?.best?.title, dbState.creatives?.best?.conclusions]);
+
+            // 🎯 METADATA GRAPH API MOCKUP ENGINE - FLOP HIRDETÉS (Worst)
+            useEffect(() => {
+                let active = true;
+                const cid = dbState.creatives?.worst?.creativeId;
+                const token = dbState.creatives?.worst?.accessToken;
+                const directUrl = dbState.creatives?.worst?.imageUrl;
+
+                // 🚀 Ha van közvetlen kép vagy videó link beillesztve, AZONNAL elfogadjuk és megkerüljük a Meta API hívást!
+                if (directUrl && directUrl.trim() !== "") {
+                    setWorstMetaStatus({
+                        loading: false,
+                        error: "",
+                        success: true,
+                        data: {
+                            title: dbState.creatives?.worst?.title || "Éles hirdetés",
+                            body: dbState.creatives?.worst?.conclusions || "",
+                            imageUrl: directUrl,
+                            videoUrl: directUrl.toLowerCase().includes(".mp4") || directUrl.toLowerCase().includes(".webm") || directUrl.includes("fbcdn.net") ? directUrl : ""
+                        }
+                    });
+                    return;
+                }
+
+                if (!cid || !token || cid.length < 10) {
+                    setWorstMetaStatus({ loading: false, error: "", success: false, data: null });
+                    return;
+                }
+
+                setWorstMetaStatus(prev => ({ ...prev, loading: true, error: "", data: null }));
+
+                const delayDebounceFn = setTimeout(() => {
+                    // Lekérjük a kreatív részleteit - kizárólag a legstabilabb hirdetési média forrásokat!
+                    fetch(`https://graph.facebook.com/v20.0/${cid}?access_token=${token}&fields=image_url,thumbnail_url,video_id`)
+                        .then(async (res) => {
+                            if (!res.ok) {
+                                const errJson = await res.json().catch(() => ({}));
+                                throw errJson;
+                            }
+                            return res.json();
+                        })
+                        .then(async (data) => {
+                            if (!active) return;
+                            
+                            let parsedData = {
+                                title: dbState.creatives?.worst?.title || "Hirdetés részletei",
+                                body: dbState.creatives?.worst?.conclusions || "Aktív Meta hirdetéskreatív előnézet.",
+                                imageUrl: data.image_url || data.thumbnail_url || "",
+                                videoUrl: ""
+                            };
+
+                            const videoId = data.video_id;
+                            if (videoId) {
+                                try {
+                                    const vidRes = await fetch(`https://graph.facebook.com/v20.0/${videoId}?access_token=${token}&fields=source`);
+                                    if (vidRes.ok) {
+                                        const vidData = await vidRes.json();
+                                        parsedData.videoUrl = vidData.source || "";
+                                    }
+                                } catch (e) {
+                                    console.error("Hiba a videó forrás letöltésekor:", e);
+                                }
+                            }
+
+                            if (active) {
+                                setWorstMetaStatus({
+                                    loading: false,
+                                    error: "",
+                                    success: true,
+                                    data: parsedData
+                                });
+                            }
+                        })
+                        .catch((err) => {
+                            console.error("Meta Graph API Error (Worst):", err);
+                            let msg = err?.error?.message || "Hálózati hiba a Meta API-val való kapcsolat során.";
+                            if (err?.error?.code === 190) {
+                                msg = "Érvénytelen vagy lejárt Access Token! (Kód: 190). Generálj újat a Meta fejlesztői felületén.";
+                            } else if (err?.error?.code === 100 || msg.includes("Unsupported get request") || err?.error?.code === 12) {
+                                msg = "A hirdetés típusa miatt a Facebook API letiltotta a közvetlen lekérdezést. Használd a lenti Média Link kerülőutat!";
+                            }
+                            if (active) setWorstMetaStatus({ loading: false, error: msg, success: false, data: null });
+                        });
+                }, 1000);
+
+                return () => {
+                    active = false;
+                    clearTimeout(delayDebounceFn);
+                };
+            }, [dbState.creatives?.worst?.creativeId, dbState.creatives?.worst?.accessToken, dbState.creatives?.worst?.imageUrl, dbState.creatives?.worst?.title, dbState.creatives?.worst?.conclusions]);
 
             const saveState = async (updatedState) => {
                 setDbState(updatedState);
@@ -469,9 +607,9 @@
                 if (syncStatus === "cloud") {
                     try {
                         const db = firebase.database();
-                        await db.ref('nexus_marketing/global_syncboard_state').set(updatedState);
+                        await db.ref('nexus_marketing/global_syncboard_state_v2').set(JSON.stringify(updatedState));
                     } catch (error) {
-                        console.error("Hiba a felhőbe történő mentéskor:", error);
+                        console.error("Hiba a mentéskor:", error);
                         showToast("Mentési hiba! Átmenetileg offline mód.", "error");
                         setSyncStatus("local");
                     }
@@ -494,7 +632,6 @@
                 saveState(updated);
             };
 
-            // JAVÍTOTT ÉS TESZTELT "TELJESÜLT" KPI KEZELÉS (Archiválás és teljes mező kiürítés)
             const handleCompleteKpi = () => {
                 if (!dbState.kpis.mainGoal || !dbState.kpis.mainGoal.trim()) {
                     showToast("Nincs rögzített fókusz cél amit teljesítetté tehetnél!", "error");
@@ -506,7 +643,6 @@
                     metricName: dbState.kpis.metricName || "",
                     target: dbState.kpis.target || 0,
                     current: dbState.kpis.current || 0,
-                    unit: dbState.kpis.unit || "",
                     completedAt: new Date().toLocaleDateString('hu-HU')
                 };
 
@@ -518,12 +654,14 @@
                         metricName: "",
                         target: 0,
                         current: 0,
+                        previous: 0,
+                        interval: "Heti",
                         unit: "x",
                         notes: ""
                     }
                 };
                 saveState(updated);
-                showToast("Gratulálunk! A cél archiválva a teljesített célok közé! 🏆", "success");
+                showToast("Cél sikeresen archiválva! 🏆", "success");
             };
 
             const handleDeleteCompletedKpi = (id) => {
@@ -532,7 +670,7 @@
                     completedKpis: dbState.completedKpis.filter(k => k.id !== id)
                 };
                 saveState(updated);
-                showToast("Teljesített cél törölve a történelmi listából.", "info");
+                showToast("Teljesített cél törölve.", "info");
             };
 
             const handleAddTimelineEvent = (e) => {
@@ -542,7 +680,7 @@
                 const updated = { ...dbState, timeline: [...dbState.timeline, newEvent] };
                 saveState(updated);
                 setNewTimelineEvent({ month: 6, title: '', type: 'agency', desc: '', assignee: '' });
-                showToast("Mérföldkő hozzáadva a timeline-hoz!", "success");
+                showToast("Mérföldkő hozzáadva!", "success");
             };
 
             const handleDeleteTimelineEvent = (id) => {
@@ -565,7 +703,7 @@
                 const updated = { ...dbState, tasks: [...dbState.tasks, newTask] };
                 saveState(updated);
                 setNewFocusTask({ title: '', assignee: '', dueDate: '', notes: '' });
-                showToast("Új feladat hozzáadva a listához!", "success");
+                showToast("Új feladat hozzáadva!", "success");
             };
 
             const handleToggleTask = (id) => {
@@ -604,7 +742,7 @@
                 const updated = { ...dbState, agenda: [...dbState.agenda, newItem] };
                 saveState(updated);
                 setNewAgendaItem("");
-                showToast("Új napirendi pont rögzítve!", "success");
+                showToast("Új téma rögzítve!", "success");
             };
 
             const handleToggleAgendaItem = (id) => {
@@ -632,11 +770,10 @@
                 saveState(updated);
             };
 
-            // --- JAVÍTOTT ÉS TESZTELT GOLYÓÁLLÓ SZŰRÉS KÖZVETLENÜL A RENDER FÁZISBAN ---
+            // Golyóálló szűrés közvetlenül a render fázisban
             const filteredTasks = useMemo(() => {
                 return (dbState.tasks || []).filter(task => {
                     const isTaskCompleted = !!task.completed;
-                    
                     if (taskFilter === "active" && isTaskCompleted) return false;
                     if (taskFilter === "completed" && !isTaskCompleted) return false;
                     
@@ -658,52 +795,81 @@
                 return Math.min(100, Math.max(0, Math.round((dayOfYear / 365) * 100)));
             }, []);
 
-            // INTELLIGENS MÉDIA ELŐNÉZET LEJÁTSZÓ (Drive, YouTube, Vimeo, mp4 és Meta Ad Preview Plugin támogatással!)
-            const renderMediaPreview = (creative, isWorst = false) => {
-                // 1. Meta Ad Preview Plugin Iframe beágyazás (Hivatalos Meta API elérés)
-                if (creative.previewMode === 'metaPlugin') {
-                    const cid = creative.creativeId;
-                    const token = creative.accessToken;
-                    const format = creative.adFormat || "MOBILE_FEED_STANDARD";
-                    if (!cid || !token) {
-                        return (
-                            <div className="text-center p-6 text-slate-500 flex flex-col items-center justify-center min-h-[180px]">
-                                <p className="text-xs font-bold text-cyan-400 mb-1">Meta Ad Preview Plugin</p>
-                                <p className="text-[10px] text-slate-400 max-w-[220px]">
-                                    A rendereléshez add meg a lenti <b>Creative ID</b>-t és az <b>Access Token</b>-t!
-                                </p>
-                            </div>
-                        );
-                    }
-                    return (
-                        <iframe 
-                            src={`https://www.facebook.com/ads/api/creative_preview.php?creative_id=${cid}&access_token=${token}&ad_format=${format}`}
-                            className={`w-full h-full rounded-lg border-0 min-h-[220px] bg-slate-950 ${isWorst ? 'filter grayscale' : ''}`}
-                            sandbox="allow-scripts allow-same-origin allow-popups"
-                        ></iframe>
-                    );
-                }
+            // KPI változás százalékos kalkulátora
+            const kpiPercentageChange = useMemo(() => {
+                const cur = dbState.kpis?.current ?? 0;
+                const prev = dbState.kpis?.previous ?? 0;
+                if (prev === 0) return null;
+                const change = ((cur - prev) / prev) * 100;
+                return Math.round(change);
+            }, [dbState.kpis?.current, dbState.kpis?.previous]);
 
-                const url = creative.imageUrl;
-                if (!url || !url.trim().startsWith("http")) {
+            // 👑 INTELLIGENS, PORTRAIT S STORY OPTIMALIZÁLT MOCKUP PREVIEW ENGINE
+            const renderMetaMockup = (creative, status, isWorst = false) => {
+                const cid = creative.creativeId;
+                const token = creative.accessToken;
+                const directUrl = creative.imageUrl;
+
+                // Ha nincs megadva se API, se direkt link
+                if (!directUrl && (!cid || !token)) {
                     return (
-                        <div className="text-center p-6 text-slate-500 flex flex-col items-center justify-center min-h-[160px]">
-                            <div className="text-slate-600 mb-2"><Icons.Video /></div>
-                            <p className="text-xs">Nincs videó vagy kép link beillesztve.</p>
-                            <p className="text-[10px] text-slate-600 mt-1 max-w-[220px]">
-                                Töltsd fel a videót Drive-ra és másold be ide a megosztási linket!
+                        <div className="text-center p-6 text-slate-500 dark:text-slate-400 flex flex-col items-center justify-center min-h-[240px]">
+                            <p className="text-xs font-bold text-cyan-400 mb-1">Élő Meta API Hirdetés-Szimulátor</p>
+                            <p className="text-[10px] text-slate-500 dark:text-slate-500 max-w-[220px]">
+                                Adj meg egy közvetlen <b>Média Linket</b>, vagy a <b>Creative ID</b> + <b>Access Token</b> párost!
                             </p>
                         </div>
                     );
                 }
 
-                // 2. Google Drive videó link átalakítás Iframe lejátszóvá (Nem jár le, stabil!)
-                if (url.includes("drive.google.com")) {
+                // Ha még töltődik az API kérés
+                if (status.loading && !directUrl) {
+                    return (
+                        <div className="text-center p-6 flex flex-col items-center justify-center min-h-[240px] bg-slate-100 dark:bg-slate-900/60 rounded-xl">
+                            <div className="w-8 h-8 border-4 border-cyan-500/20 border-t-cyan-400 rounded-full animate-spin mb-2"></div>
+                            <p className="text-[10px] text-slate-500 dark:text-slate-400">Meta API adatok betöltése...</p>
+                        </div>
+                    );
+                }
+
+                // Ha az API hibát dob, de nincsen kerülőutas direkt linkünk sem
+                if (status.error && !directUrl) {
+                    return (
+                        <div className="p-5 bg-rose-950/40 border border-rose-500/30 rounded-xl text-center flex flex-col items-center justify-center min-h-[240px] text-slate-200">
+                            <span className="text-rose-400 font-extrabold text-xs mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+                                ⚠️ Meta API Hiba!
+                            </span>
+                            <p className="text-[11px] text-rose-300 max-w-[240px] leading-relaxed font-semibold">{status.error}</p>
+                            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-3 max-w-[220px] leading-normal">
+                                Kerüld meg a hibát a lenti <b>Média Link</b> mező használatával!
+                            </p>
+                        </div>
+                    );
+                }
+
+                // Ha sikeres vagyunk, összeállítjuk a renderelendő forrást (API adatok vagy közvetlen link)
+                const adData = status.data || { 
+                    title: creative.title || "Hirdetés részletei", 
+                    body: creative.conclusions || "Sikeresen lekérdezett élő hirdetéskreatív.", 
+                    imageUrl: directUrl, 
+                    videoUrl: directUrl && (directUrl.toLowerCase().includes(".mp4") || directUrl.toLowerCase().includes(".webm") || directUrl.includes("fbcdn.net")) ? directUrl : "" 
+                };
+
+                const mediaUrl = adData.videoUrl || adData.imageUrl;
+                if (!mediaUrl) return null;
+
+                // Formátumok és Képarányok dinamikus osztályozása!
+                const format = creative.adFormat || "MOBILE_FEED_STANDARD";
+                const isStory = format === "INSTAGRAM_STORY";
+
+                let mediaElement = null;
+
+                if (mediaUrl.includes("drive.google.com")) {
                     let fileId = "";
-                    const matches = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                    const matches = mediaUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
                     if (matches && matches[1]) {
                         fileId = matches[1];
-                        return (
+                        mediaElement = (
                             <iframe 
                                 src={`https://drive.google.com/file/d/${fileId}/preview`} 
                                 className={`w-full h-full rounded-lg border-0 min-h-[180px] ${isWorst ? 'filter grayscale' : ''}`}
@@ -712,140 +878,158 @@
                             ></iframe>
                         );
                     }
-                }
-
-                // 3. YouTube videó beágyazás
-                if (url.includes("youtube.com") || url.includes("youtu.be")) {
+                } else if (mediaUrl.includes("youtube.com") || mediaUrl.includes("youtu.be")) {
                     let videoId = "";
-                    if (url.includes("youtu.be/")) {
-                        videoId = url.split("youtu.be/")[1]?.split("?")[0];
-                    } else if (url.includes("v=")) {
-                        videoId = url.split("v=")[1]?.split("&")[0];
-                    } else if (url.includes("embed/")) {
-                        videoId = url.split("embed/")[1]?.split("?")[0];
+                    if (mediaUrl.includes("youtu.be/")) {
+                        videoId = mediaUrl.split("youtu.be/")[1]?.split("?")[0];
+                    } else if (mediaUrl.includes("v=")) {
+                        videoId = mediaUrl.split("v=")[1]?.split("&")[0];
+                    } else if (mediaUrl.includes("embed/")) {
+                        videoId = mediaUrl.split("embed/")[1]?.split("?")[0];
                     }
                     if (videoId) {
-                        return (
+                        mediaElement = (
                             <iframe 
                                 src={`https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1`} 
                                 className={`w-full h-full rounded-lg border-0 min-h-[180px] ${isWorst ? 'filter grayscale' : ''}`}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                 allowFullScreen
                             ></iframe>
                         );
                     }
-                }
-
-                // 4. Vimeo videó beágyazás
-                if (url.includes("vimeo.com")) {
-                    const matches = url.match(/vimeo\.com\/(\d+)/);
-                    if (matches && matches[1]) {
-                        const videoId = matches[1];
-                        return (
-                            <iframe 
-                                src={`https://player.vimeo.com/video/${videoId}`} 
-                                className={`w-full h-full rounded-lg border-0 min-h-[180px] ${isWorst ? 'filter grayscale' : ''}`}
-                                allowFullScreen
-                            ></iframe>
-                        );
-                    }
-                }
-
-                // 5. Közvetlen mp4/webm fájlok és Dropbox raw streamek
-                const isVideo = url.toLowerCase().includes(".mp4") || url.toLowerCase().includes(".webm") || url.includes("fbcdn.net/v/") || (url.includes("dropbox.com") && url.includes("raw=1"));
-                if (isVideo) {
-                    return (
+                } else if (mediaUrl.toLowerCase().includes(".mp4") || mediaUrl.toLowerCase().includes(".webm") || mediaUrl.includes("fbcdn.net")) {
+                    mediaElement = (
                         <video 
-                            src={url} 
-                            className={`w-full h-full object-contain rounded-lg ${isWorst ? 'filter grayscale' : ''}`}
-                            controls 
+                            src={mediaUrl} 
+                            className={`w-full h-full object-cover ${isWorst ? 'filter grayscale' : ''}`}
+                            controls={false} 
                             autoPlay 
                             loop 
-                            muted
+                            muted 
                             playsInline
+                        />
+                    );
+                } else {
+                    mediaElement = (
+                        <img 
+                            src={mediaUrl} 
+                            alt="Hirdetés kreatív" 
+                            className={`w-full h-full object-cover ${isWorst ? 'filter grayscale' : ''}`}
+                            onError={(e) => { e.target.style.display = 'none'; }}
                         />
                     );
                 }
 
-                // 6. Alapértelmezett: Képként történő kirajzolás
-                return (
-                    <img 
-                        src={url} 
-                        alt="Creative Content" 
-                        className={`w-full h-full object-cover rounded-lg ${isWorst ? 'filter grayscale' : ''}`}
-                        onError={(e) => { e.target.style.display = 'none'; }}
-                    />
-                );
-            };
-
-            // Open Graph Előnézet Renderelő Függvény (Slack/Facebook stílusú kártya)
-            const renderLinkPreviewCard = (preview, fallbackTitle, fallbackUrl) => {
-                if (!preview) {
+                if (isStory) {
+                    // 📱 9:16 Instagram / Facebook Story & Reels Mockup
                     return (
-                        <div className="flex flex-col items-center justify-center p-6 bg-slate-950/60 rounded-xl border border-slate-800 text-center min-h-[120px]">
-                            <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-slate-500 mb-2">
-                                <Icons.ExternalLink />
+                        <div className={`w-full max-w-[280px] mx-auto bg-black rounded-[2.5rem] border-[6px] border-slate-300 dark:border-slate-800 shadow-2xl overflow-hidden aspect-[9/16] relative flex flex-col ${isWorst ? 'filter grayscale' : ''}`}>
+                            {/* Instagram felül lebegő történet-csíkok (Progress bars) */}
+                            <div className="absolute top-3 left-0 right-0 px-3 flex gap-1 z-20">
+                                <div className="h-[2px] flex-1 bg-white/40 rounded-full overflow-hidden">
+                                    <div className="h-full w-2/3 bg-white rounded-full"></div>
+                                </div>
+                                <div className="h-[2px] flex-1 bg-white/20 rounded-full"></div>
                             </div>
-                            <p className="text-[11px] text-slate-500 leading-normal max-w-[200px]">
-                                Céloldal vagy hirdetés Open Graph előnézete...
-                            </p>
+
+                            {/* Lebegő profil fejléc */}
+                            <div className="absolute top-5 left-0 right-0 px-3.5 flex items-center justify-between z-20">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-fuchsia-500 flex items-center justify-center font-bold text-slate-950 text-xs shadow-lg">
+                                        {dbState.clientName ? dbState.clientName.charAt(0).toUpperCase() : "N"}
+                                    </div>
+                                    <div>
+                                        <h4 className="text-[10px] font-black text-white leading-none drop-shadow-md">{dbState.clientName || "Hirdető oldal"}</h4>
+                                        <span className="text-[7.5px] text-white/90 font-bold block mt-0.5 drop-shadow-md">Sponsored 🌐</span>
+                                    </div>
+                                </div>
+                                <div className="text-white text-xs drop-shadow-md cursor-pointer">•••</div>
+                            </div>
+
+                            {/* Teljes háttér média box (9:16 arányú lefedés, nincs több levágás!) */}
+                            <div className="flex-1 bg-slate-950 flex items-center justify-center relative overflow-hidden">
+                                {mediaElement}
+                            </div>
+
+                            {/* Story alsó Swipe-Up CTA sáv lebegve */}
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 pt-14 flex flex-col items-center justify-center text-center z-10">
+                                <span className="text-[10px] text-white font-bold tracking-wide drop-shadow-md">{creative.title || "Kattints a részletekért"}</span>
+                                <div className="mt-1.5 animate-bounce text-white text-[10px]">▲</div>
+                                <a 
+                                    href={creative.url || "#"} 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    className="mt-1 w-full max-w-[160px] py-2 bg-white hover:bg-slate-100 text-slate-950 font-black text-[9px] uppercase tracking-wider rounded-xl transition text-center shadow-lg"
+                                >
+                                    Részletek
+                                </a>
+                            </div>
+                        </div>
+                    );
+                } else {
+                    // Standard Feed mockup (MOBILE_FEED = 4:5, DESKTOP_FEED = 16:9, INSTAGRAM_STREAM = 1:1)
+                    const aspectClass = format === "DESKTOP_FEED_STANDARD" ? "aspect-video" : format === "INSTAGRAM_STREAM" ? "aspect-square" : "aspect-[4/5]";
+                    
+                    return (
+                        <div className={`w-full bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden text-slate-900 dark:text-slate-100 flex flex-col text-left max-w-sm mx-auto ${isWorst ? 'filter grayscale' : ''}`}>
+                            
+                            {/* Hirdetői fejléc */}
+                            <div className="p-3 flex items-center gap-2 border-b border-slate-100 dark:border-slate-900/60">
+                                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-cyan-500 to-fuchsia-500 flex items-center justify-center font-bold text-slate-950 text-sm">
+                                    {dbState.clientName ? dbState.clientName.charAt(0).toUpperCase() : "N"}
+                                </div>
+                                <div>
+                                    <h4 className="text-xs font-black text-slate-900 dark:text-white leading-none">{dbState.clientName || "Hirdető oldal"}</h4>
+                                    <span className="text-[9px] text-slate-505 dark:text-slate-400 font-semibold block mt-1">Hirdetés • Szponzorált 🌐</span>
+                                </div>
+                            </div>
+
+                            {/* Elsődleges hirdetésszöveg (A konklúzióból automatikusan generálva) */}
+                            <div className="p-3 text-xs leading-relaxed text-slate-850 dark:text-slate-200 whitespace-pre-line border-b border-slate-100 dark:border-slate-900/40 font-medium">
+                                {creative.conclusions || "Élő hirdetéskreatív előnézet a SyncBoardon."}
+                            </div>
+
+                            {/* Média box */}
+                            <div className={`bg-slate-100 dark:bg-slate-900 ${aspectClass} flex items-center justify-center relative overflow-hidden`}>
+                                {mediaElement}
+                            </div>
+
+                            {/* CTA alsó sáv */}
+                            <div className="p-3 bg-slate-50 dark:bg-slate-900/50 flex justify-between items-center border-t border-slate-100 dark:border-slate-900/80 gap-2">
+                                <div className="flex-1 min-w-0">
+                                    <span className="text-[9px] text-slate-505 dark:text-slate-400 font-semibold uppercase tracking-wider block">facebook.com</span>
+                                    <h5 className="text-xs font-bold text-slate-900 dark:text-white truncate mt-0.5">{creative.title || "További információkért kattints"}</h5>
+                                </div>
+                                <a 
+                                    href={creative.url || "#"} 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    className="px-3.5 py-1.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-100 font-black text-[9px] uppercase tracking-wider rounded-lg transition"
+                                >
+                                    Részletek
+                                </a>
+                            </div>
                         </div>
                     );
                 }
-                return (
-                    <div className="bg-slate-950 rounded-xl overflow-hidden border border-slate-800 flex flex-col shadow-lg min-h-[120px]">
-                        {preview.image && (
-                            <div className="w-full h-32 overflow-hidden border-b border-slate-800/80 relative">
-                                <img 
-                                    src={preview.image} 
-                                    alt={preview.title} 
-                                    className="w-full h-full object-cover"
-                                    onError={(e) => { e.target.style.display = 'none'; }}
-                                />
-                            </div>
-                        )}
-                        <div className="p-3 flex-1 flex flex-col justify-between">
-                            <div>
-                                <span className="text-[8px] font-bold text-cyan-400 uppercase tracking-widest block mb-0.5">
-                                    {preview.publisher || "LINK PREVIEW"}
-                                </span>
-                                <h4 className="text-xs font-bold text-slate-100 line-clamp-1">{preview.title || fallbackTitle}</h4>
-                                <p className="text-[10px] text-slate-400 line-clamp-2 mt-1 leading-relaxed">{preview.description}</p>
-                            </div>
-                            <a 
-                                href={fallbackUrl} 
-                                target="_blank" 
-                                rel="noreferrer" 
-                                className="inline-flex items-center gap-1.5 text-[9px] font-black text-cyan-400 hover:text-cyan-300 tracking-wider uppercase mt-3 transition-all"
-                            >
-                                <span>Megnyitás</span>
-                                <Icons.ExternalLink />
-                            </a>
-                        </div>
-                    </div>
-                );
             };
 
             return (
-                <div className="pb-24">
+                <div className="pb-24 bg-slate-50 dark:bg-brand-dark text-slate-800 dark:text-slate-100 transition-colors duration-200 font-sans">
+                    {/* TOAST PANEL */}
                     {toast.show && (
-                        <div className={`fixed bottom-5 right-5 z-50 flex items-center gap-3 px-5 py-4 rounded-xl shadow-2xl border transition-all duration-300 ${
-                            toast.type === 'success' ? 'bg-teal-950 border-teal-500/30 text-teal-200' :
-                            toast.type === 'error' ? 'bg-rose-950 border-rose-500/30 text-rose-200' :
-                            'bg-slate-900 border-slate-800 text-slate-200'
-                        }`}>
+                        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-3 px-5 py-4 rounded-xl shadow-2xl border transition-all duration-300 bg-slate-900 border-slate-800 text-slate-200">
                             <span className="text-xs font-bold">{toast.message}</span>
                         </div>
                     )}
 
-                    {/* FELSŐ VEZÉRLŐ ÉS FEJLÉC SZEKCIÓ */}
-                    <header className="border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md sticky top-0 z-40 shadow-2xl">
-                        <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col md:flex-row justify-between items-center gap-4">
+                    {/* FŐ FEJLÉC ÉS VEZÉRLŐ PANEL */}
+                    <header className="border-b border-slate-200 dark:border-slate-800/80 bg-white/95 dark:bg-slate-950/90 backdrop-blur-md sticky top-0 z-40 shadow-sm dark:shadow-2xl">
+                        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
                             
-                            {/* Ügyfél Név és Logó */}
+                            {/* Ügyfélnév és Logó */}
                             <div className="flex items-center gap-4 w-full md:w-auto">
-                                <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-                                    <span className="font-extrabold text-slate-950 text-2xl">N</span>
+                                <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                                    <span className="font-extrabold text-slate-950 text-xl">N</span>
                                 </div>
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2">
@@ -856,26 +1040,26 @@
                                                 onChange={(e) => handleUpdateClientName(e.target.value)}
                                                 onBlur={() => setIsEditingClient(false)}
                                                 onKeyDown={(e) => e.key === 'Enter' && setIsEditingClient(false)}
-                                                className="bg-slate-900 border border-cyan-500 rounded px-2 py-0.5 text-lg font-bold text-white focus:outline-none"
+                                                className="bg-slate-100 dark:bg-slate-900 border border-cyan-500 rounded px-2 py-0.5 text-lg font-bold text-slate-900 dark:text-white focus:outline-none"
                                                 autoFocus
                                             />
                                         ) : (
                                             <h1 
                                                 onClick={() => setIsEditingClient(true)}
-                                                className="text-xl font-bold tracking-tight text-white cursor-pointer hover:text-cyan-400 flex items-center gap-2 group"
+                                                className="text-lg font-bold tracking-tight text-slate-900 dark:text-white cursor-pointer hover:text-cyan-500 flex items-center gap-2 group"
                                             >
                                                 {dbState.clientName || "Kedves Ügyfelünk"}
                                                 <span className="text-[10px] text-slate-500 opacity-0 group-hover:opacity-100 transition">Szerkesztés</span>
                                             </h1>
                                         )}
                                     </div>
-                                    <p className="text-xs text-slate-400 font-semibold tracking-wider uppercase">Marketing Ügyfél Portál</p>
+                                    <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold tracking-wider uppercase">Marketing Ügyfél Portál</p>
                                 </div>
                             </div>
 
                             {/* Közös Drive Link és Státuszok */}
                             <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
-                                <div className="flex items-center gap-2 bg-slate-900/60 p-1 rounded-xl border border-slate-800">
+                                <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-900/60 p-1 rounded-xl border border-slate-200 dark:border-slate-800">
                                     {isEditingDrive ? (
                                         <input
                                             type="text"
@@ -884,13 +1068,13 @@
                                             onBlur={() => setIsEditingDrive(false)}
                                             onKeyDown={(e) => e.key === 'Enter' && setIsEditingDrive(false)}
                                             placeholder="Drive mappa linkje..."
-                                            className="bg-slate-950 border border-cyan-500 rounded px-2.5 py-1 text-xs text-slate-200 focus:outline-none w-48"
+                                            className="bg-white dark:bg-slate-950 border border-cyan-500 rounded px-2.5 py-1 text-xs text-slate-900 dark:text-slate-200 focus:outline-none w-48"
                                             autoFocus
                                         />
                                     ) : (
                                         <button 
                                             onClick={() => { setIsEditingDrive(true); }}
-                                            className="px-2.5 py-1 text-slate-400 hover:text-slate-200 text-xs font-semibold"
+                                            className="px-2.5 py-1 text-slate-500 dark:text-slate-400 hover:text-cyan-500 text-xs font-semibold"
                                         >
                                             Link beállítása
                                         </button>
@@ -900,7 +1084,7 @@
                                         href={dbState.driveLink || "#"} 
                                         target="_blank" 
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950 text-xs font-black transition hover:brightness-110 shadow-lg shadow-cyan-500/10"
+                                        className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950 text-xs font-black transition hover:brightness-110 shadow-lg shadow-cyan-500/10"
                                     >
                                         <Icons.Folder />
                                         <span>Közös Drive</span>
@@ -908,12 +1092,21 @@
                                 </div>
 
                                 <div className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold border ${
-                                    syncStatus === 'cloud' ? 'bg-teal-500/10 border-teal-500/20 text-teal-400' :
-                                    'bg-amber-500/10 border-amber-500/20 text-amber-400'
+                                    syncStatus === 'cloud' ? 'bg-teal-500/10 border-teal-500/20 text-teal-650 dark:text-teal-400' :
+                                    'bg-amber-500/10 border-amber-500/20 text-amber-650 dark:text-amber-400'
                                 }`}>
-                                    <span className={`w-2 h-2 rounded-full ${syncStatus === 'cloud' ? 'bg-teal-400 animate-pulse' : 'bg-amber-400'}`} />
+                                    <span className={`w-2 h-2 rounded-full ${syncStatus === 'cloud' ? 'bg-teal-500 animate-pulse' : 'bg-amber-500'}`} />
                                     {syncStatus === 'cloud' ? 'Valós idejű RTDB aktív' : 'Helyi mentés'}
                                 </div>
+
+                                {/* 🌓 NAPPALI / ÉJSZAKAI MÓD VÁLTÓ GOMB */}
+                                <button
+                                    onClick={() => setDarkMode(!darkMode)}
+                                    className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition"
+                                    title="Témaváltás"
+                                >
+                                    {darkMode ? <Icons.Sun /> : <Icons.Moon />}
+                                </button>
                             </div>
 
                         </div>
@@ -921,18 +1114,18 @@
 
                     {/* AZ ÉV HALADÁSA CSÚSZKA */}
                     <div className="max-w-7xl mx-auto px-4 mt-6">
-                        <div className="bg-brand-card/50 border border-slate-800/80 rounded-2xl p-4 relative overflow-hidden backdrop-blur-sm shadow-xl">
+                        <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800/80 rounded-2xl p-4 relative overflow-hidden shadow-sm dark:shadow-xl">
                             <div className="absolute top-0 right-0 w-32 h-16 bg-cyan-500/5 rounded-full blur-2xl"></div>
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2.5 gap-1">
-                                <span className="text-[10px] font-black uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                                <span className="text-[10px] font-black uppercase tracking-wider text-cyan-600 dark:text-cyan-400 flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-ping"></span>
                                     Aktuális Éves Idővonal Haladás
                                 </span>
-                                <span className="text-xs font-mono text-fuchsia-400 font-bold bg-slate-950/40 px-2.5 py-1 rounded-lg border border-slate-800/60">
+                                <span className="text-xs font-mono text-fuchsia-600 dark:text-fuchsia-400 font-bold bg-slate-100 dark:bg-slate-950/40 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800/60">
                                     Ma: {new Date().toLocaleDateString('hu-HU', { month: 'long', day: 'numeric' })} &rarr; {yearProgressPercent}%
                                 </span>
                             </div>
-                            <div className="relative w-full h-3 bg-slate-950 rounded-full border border-slate-800/80 overflow-hidden shadow-inner">
+                            <div className="relative w-full h-3 bg-slate-200 dark:bg-slate-950 rounded-full border border-slate-300 dark:border-slate-800/80 overflow-hidden shadow-inner">
                                 <div 
                                     className="h-full bg-gradient-to-r from-cyan-500 via-teal-400 to-fuchsia-500 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.3)]" 
                                     style={{ width: `${yearProgressPercent}%` }}
@@ -966,51 +1159,64 @@
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             
                             {/* CÉLTÁBLA */}
-                            <div className="bg-brand-card border border-slate-800/80 rounded-2xl p-6 relative overflow-hidden group flex flex-col justify-between">
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/5 rounded-full blur-3xl"></div>
+                            <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 relative overflow-hidden group flex flex-col justify-between shadow-sm dark:shadow-xl">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/5 rounded-full blur-3xl group-hover:bg-fuchsia-500/10 transition duration-500"></div>
                                 <div>
                                     <div className="flex items-center justify-between mb-4">
-                                        <span className="text-xs font-bold uppercase tracking-wider text-fuchsia-400 flex items-center gap-1.5">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400"></span>
+                                        <span className="text-xs font-bold uppercase tracking-wider text-fuchsia-600 dark:text-fuchsia-400 flex items-center gap-1.5">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-500"></span>
                                             Stratégiai Célkitűzés (KPI)
                                         </span>
-                                        <button 
-                                            onClick={handleCompleteKpi}
-                                            className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 border border-emerald-500/30 text-xs font-black transition-all flex items-center gap-1.5 shadow-md shadow-emerald-500/5"
-                                        >
-                                            <Icons.Check />
-                                            <span>Teljesült! 🎉</span>
-                                        </button>
                                     </div>
 
                                     <div className="space-y-4">
                                         <div>
-                                            <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Aktuális Fő Fókusz</label>
+                                            <label className="block text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Mérési intervallum</label>
+                                            <input
+                                                type="text"
+                                                value={dbState.kpis.interval || ""}
+                                                onChange={(e) => handleKpiChange('interval', e.target.value)}
+                                                className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-slate-100 transition"
+                                                placeholder="Pl. Heti, Kétheti, Q3..."
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Aktuális Fő Fókusz</label>
                                             <input
                                                 type="text"
                                                 value={dbState.kpis.mainGoal || ""}
                                                 onChange={(e) => handleKpiChange('mainGoal', e.target.value)}
-                                                className="w-full bg-slate-950/80 border border-slate-800 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-lg px-3 py-2 text-sm text-slate-100 transition"
+                                                className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-100 transition font-bold"
                                                 placeholder="Írd be a stratégiai célt..."
                                             />
                                         </div>
 
                                         <div>
-                                            <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Mérőszám Neve</label>
-                                            <input
-                                                type="text"
-                                                value={dbState.kpis.metricName || ""}
-                                                onChange={(e) => handleKpiChange('metricName', e.target.value)}
-                                                className="w-full bg-slate-950/80 border border-slate-800 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-lg px-3 py-2 text-sm text-slate-100 transition"
-                                                placeholder="Pl. ROAS vagy CPA..."
-                                            />
+                                            <label className="block text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Mérőszám Neve és Egysége</label>
+                                            <div className="grid grid-cols-3 gap-2">
+                                                <input
+                                                    type="text"
+                                                    value={dbState.kpis.metricName || ""}
+                                                    onChange={(e) => handleKpiChange('metricName', e.target.value)}
+                                                    className="col-span-2 bg-slate-50 dark:bg-slate-955/80 border border-slate-200 dark:border-slate-800 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-slate-100 transition"
+                                                    placeholder="Pl. ROAS..."
+                                                />
+                                                <input
+                                                    type="text"
+                                                    value={dbState.kpis.unit || ""}
+                                                    onChange={(e) => handleKpiChange('unit', e.target.value)}
+                                                    className="bg-slate-50 dark:bg-slate-955/80 border border-slate-200 dark:border-slate-800 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-lg px-2 py-2 text-xs text-center font-bold text-slate-900 dark:text-slate-100"
+                                                    placeholder="Egység..."
+                                                />
+                                            </div>
                                         </div>
 
-                                        {/* Vizualizáció */}
-                                        <div className="my-4 flex flex-col items-center justify-center">
-                                            <div className="relative w-36 h-36 flex items-center justify-center">
+                                        {/* Vizualizáció és Százalékos Változás */}
+                                        <div className="my-4 flex flex-col items-center justify-center relative">
+                                            <div className="relative w-32 h-32 flex items-center justify-center">
                                                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                                                    <circle cx="50" cy="50" r="40" className="stroke-slate-800" strokeWidth="8" fill="transparent" />
+                                                    <circle cx="50" cy="50" r="40" className="stroke-slate-200 dark:stroke-slate-800" strokeWidth="8" fill="transparent" />
                                                     <circle 
                                                         cx="50" 
                                                         cy="50" 
@@ -1019,87 +1225,119 @@
                                                         strokeWidth="8" 
                                                         fill="transparent"
                                                         strokeDasharray={`${2 * Math.PI * 40}`}
-                                                        strokeDashoffset={`${2 * Math.PI * 40 * (1 - Math.min(1, dbState.kpis.current / (dbState.kpis.target || 1)))}`}
+                                                        strokeDashoffset={`${2 * Math.PI * 40 * (1 - Math.min(1, (dbState.kpis.current || 0) / (dbState.kpis.target || 1)))}`}
                                                         strokeLinecap="round"
                                                     />
                                                 </svg>
                                                 <div className="absolute flex flex-col items-center justify-center text-center">
-                                                    <span className="text-3xl font-black text-white tracking-tight">
+                                                    <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
                                                         {dbState.kpis.current || 0}
-                                                        <span className="text-sm font-medium text-slate-400">{dbState.kpis.unit}</span>
+                                                        <span className="text-xs font-semibold text-slate-500">{dbState.kpis.unit}</span>
                                                     </span>
-                                                    <span className="text-[10px] font-bold text-slate-400 uppercase mt-0.5">
+                                                    <span className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">
                                                         Cél: {dbState.kpis.target || 0}{dbState.kpis.unit}
                                                     </span>
                                                 </div>
                                             </div>
+
+                                            {/* Automatikus Változás Badge */}
+                                            {kpiPercentageChange !== null && (
+                                                <div className={`absolute -bottom-2 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow border transition ${
+                                                    kpiPercentageChange >= 0 
+                                                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400' 
+                                                        : 'bg-rose-500/10 border-rose-500/20 text-rose-600 dark:text-rose-400'
+                                                }`}>
+                                                    {kpiPercentageChange >= 0 ? `+${kpiPercentageChange}% 📈` : `${kpiPercentageChange}% 📉`}
+                                                </div>
+                                            )}
                                         </div>
 
-                                        <div className="grid grid-cols-2 gap-3">
+                                        <div className="grid grid-cols-3 gap-2 pt-2">
                                             <div>
-                                                <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Célérték</label>
+                                                <label className="block text-[8px] text-slate-500 uppercase font-black text-center mb-1">Előző időszak</label>
                                                 <input
                                                     type="number"
                                                     step="0.1"
-                                                    value={dbState.kpis.target || 0}
-                                                    onChange={(e) => handleKpiChange('target', parseFloat(e.target.value) || 0)}
-                                                    className="w-full bg-slate-950/80 border border-slate-800 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-lg px-3 py-1.5 text-center font-bold text-fuchsia-400 transition"
+                                                    value={dbState.kpis.previous || 0}
+                                                    onChange={(e) => handleKpiChange('previous', parseFloat(e.target.value) || 0)}
+                                                    className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 focus:border-fuchsia-500 rounded-lg py-1.5 text-center font-bold text-amber-500 transition"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Jelenlegi állás</label>
+                                                <label className="block text-[8px] text-slate-505 uppercase font-black text-center mb-1">Jelenlegi</label>
                                                 <input
                                                     type="number"
                                                     step="0.1"
                                                     value={dbState.kpis.current || 0}
                                                     onChange={(e) => handleKpiChange('current', parseFloat(e.target.value) || 0)}
-                                                    className="w-full bg-slate-950/80 border border-slate-800 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-lg px-3 py-1.5 text-center font-bold text-cyan-400 transition"
+                                                    className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 focus:border-fuchsia-500 rounded-lg py-1.5 text-center font-bold text-cyan-500 transition"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-[8px] text-slate-505 uppercase font-black text-center mb-1">Célérték</label>
+                                                <input
+                                                    type="number"
+                                                    step="0.1"
+                                                    value={dbState.kpis.target || 0}
+                                                    onChange={(e) => handleKpiChange('target', parseFloat(e.target.value) || 0)}
+                                                    className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 focus:border-fuchsia-500 rounded-lg py-1.5 text-center font-bold text-fuchsia-500 transition"
                                                 />
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Irányvonal / Megjegyzés</label>
+                                            <label className="block text-[10px] text-slate-505 dark:text-slate-400 uppercase font-bold mb-1">Műveleti Megjegyzések</label>
                                             <textarea
                                                 rows="2"
                                                 value={dbState.kpis.notes || ""}
                                                 onChange={(e) => handleKpiChange('notes', e.target.value)}
-                                                className="w-full bg-slate-950/80 border border-slate-800 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-lg p-2 text-xs text-slate-300 transition resize-none"
+                                                className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 rounded-lg p-2 text-xs text-slate-800 dark:text-slate-300 transition resize-none"
                                             />
                                         </div>
+                                    </div>
+
+                                    {/* TELJESÜLT GOMB A KÁRTYA LEGALJÁN */}
+                                    <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800/80">
+                                        <button 
+                                            onClick={handleCompleteKpi}
+                                            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white dark:text-slate-950 font-black text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/10"
+                                        >
+                                            <Icons.Trophy />
+                                            <span>Célkitűzés Teljesült! Archiválás 🎉</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
 
                             {/* MEETING NAPIREND */}
-                            <div className="lg:col-span-2 bg-brand-card border border-slate-800/80 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between">
+                            <div className="lg:col-span-2 bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between shadow-sm dark:shadow-xl">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/5 rounded-full blur-3xl"></div>
                                 <div>
                                     <div className="flex items-center justify-between mb-4">
-                                        <span className="text-xs font-bold uppercase tracking-wider text-fuchsia-400 flex items-center gap-1.5">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400"></span>
+                                        <span className="text-xs font-bold uppercase tracking-wider text-fuchsia-600 dark:text-fuchsia-400 flex items-center gap-1.5">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-500"></span>
                                             Meeting Napirend
                                         </span>
                                     </div>
-                                    <p className="text-xs text-slate-400 mb-4">A következő heti szinkron során megvitatandó kritikus témák és kérdések.</p>
+                                    <p className="text-xs text-slate-555 dark:text-slate-400 mb-4">A következő heti szinkron során megvitatandó kritikus témák és kérdések.</p>
 
-                                    <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1">
+                                    <div className="space-y-2 max-h-[460px] overflow-y-auto pr-1">
                                         {(!dbState.agenda || dbState.agenda.length === 0) ? (
                                             <p className="text-xs text-slate-500 text-center py-8">Nincs téma rögzítve.</p>
                                         ) : (
                                             dbState.agenda.map(item => (
                                                 <div key={item.id} className={`flex items-start justify-between p-3 rounded-xl border transition ${
-                                                    item.completed ? 'bg-slate-950/40 border-slate-800 text-slate-500 line-through' : 'bg-slate-950/80 border-slate-800 hover:border-slate-700'
+                                                    item.completed ? 'bg-slate-100 dark:bg-slate-950/40 border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 line-through' : 'bg-slate-50 dark:bg-slate-950/80 border-slate-200 dark:border-slate-800 hover:border-slate-350 dark:hover:border-slate-700'
                                                 }`}>
                                                     <div className="flex items-start gap-2.5 mr-2">
                                                         <button onClick={() => handleToggleAgendaItem(item.id)} className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center transition ${
-                                                            item.completed ? 'bg-fuchsia-500 border-fuchsia-400 text-slate-950' : 'border-slate-700 hover:border-fuchsia-500 text-transparent'
+                                                            item.completed ? 'bg-fuchsia-500 border-fuchsia-400 text-slate-950' : 'border-slate-300 dark:border-slate-700 hover:border-fuchsia-500 text-transparent'
                                                         }`}>
                                                             <span className="text-[10px] font-bold">✓</span>
                                                         </button>
-                                                        <span className="text-xs leading-relaxed text-slate-200">{item.text}</span>
+                                                        <span className="text-xs leading-relaxed text-slate-800 dark:text-slate-200">{item.text}</span>
                                                     </div>
-                                                    <button onClick={() => handleDeleteAgendaItem(item.id)} className="text-slate-600 hover:text-rose-400 transition p-1 hover:bg-rose-500/10 rounded">
+                                                    <button onClick={() => handleDeleteAgendaItem(item.id)} className="text-slate-500 hover:text-rose-500 transition p-1 hover:bg-rose-500/10 rounded">
                                                         <Icons.Trash />
                                                     </button>
                                                 </div>
@@ -1108,15 +1346,15 @@
                                     </div>
                                 </div>
 
-                                <form onSubmit={handleAddAgendaItem} className="mt-6 pt-4 border-t border-slate-800/80">
-                                    <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1.5">Új napirendi téma hozzáadása</label>
+                                <form onSubmit={handleAddAgendaItem} className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800/80">
+                                    <label className="block text-[10px] text-slate-505 dark:text-slate-400 uppercase font-bold mb-1.5">Új napirendi téma hozzáadása</label>
                                     <div className="flex gap-2">
                                         <input
                                             type="text"
                                             placeholder="Pl. Karácsonyi büdzsé tervezése..."
                                             value={newAgendaItem}
                                             onChange={(e) => setNewAgendaItem(e.target.value)}
-                                            className="flex-1 bg-slate-950 border border-slate-800 focus:border-fuchsia-500 rounded-lg px-3 py-1.5 text-xs text-slate-200"
+                                            className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-fuchsia-500 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-slate-200"
                                         />
                                         <button type="submit" className="bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-bold p-1.5 rounded-lg transition shadow-lg shadow-fuchsia-500/10 h-8 mt-auto">
                                             <Icons.Plus />
@@ -1128,16 +1366,16 @@
                         </div>
 
                         {/* 2. SZEKCIÓ: FOCUS LIST (HETI FELADATOK) */}
-                        <div className="bg-brand-card border border-slate-800/80 rounded-2xl p-6 relative overflow-hidden shadow-2xl">
+                        <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 relative overflow-hidden shadow-sm dark:shadow-2xl">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl"></div>
                             
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                                 <div>
-                                    <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-cyan-400 to-fuchsia-500 animate-pulse"></span>
                                         Heti Fókusz Feladatok
                                     </h2>
-                                    <p className="text-xs text-slate-400 mt-0.5">Operatív teendők listája, pipálható zöld státusszal és korlátlan felelős-beírással.</p>
+                                    <p className="text-xs text-slate-505 dark:text-slate-400 mt-0.5">Operatív teendők listája, pipálható zöld státusszal és korlátlan felelős-beírással.</p>
                                 </div>
 
                                 {/* SZŰRŐ PANEL */}
@@ -1148,26 +1386,26 @@
                                             placeholder="Felelős keresése..."
                                             value={taskSearchAssignee}
                                             onChange={(e) => setTaskSearchAssignee(e.target.value)}
-                                            className="bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none placeholder-slate-600 w-36 md:w-44"
+                                            className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-cyan-400 rounded-xl px-3 py-1.5 text-xs text-slate-900 dark:text-slate-200 focus:outline-none placeholder-slate-450 dark:placeholder-slate-650 w-36 md:w-44"
                                         />
                                         {taskSearchAssignee && (
                                             <button 
                                                 onClick={() => setTaskSearchAssignee("")} 
-                                                className="absolute right-2 top-2 text-[10px] text-slate-500 hover:text-slate-300"
+                                                className="absolute right-2 top-2 text-[10px] text-slate-500 hover:text-slate-350"
                                             >
                                                 ✕
                                             </button>
                                         )}
                                     </div>
 
-                                    <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800">
-                                        <button onClick={() => setTaskFilter("all")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${taskFilter === 'all' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-slate-200'}`}>
+                                    <div className="flex bg-slate-50 dark:bg-slate-955 p-1 rounded-xl border border-slate-200 dark:border-slate-800">
+                                        <button onClick={() => setTaskFilter("all")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${taskFilter === 'all' ? 'bg-white dark:bg-slate-800 text-slate-955 dark:text-white shadow-sm' : 'text-slate-505 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}>
                                             Összes ({(dbState.tasks || []).length})
                                         </button>
-                                        <button onClick={() => setTaskFilter("active")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${taskFilter === 'active' ? 'bg-cyan-500/10 text-cyan-400' : 'text-slate-400 hover:text-slate-200'}`}>
+                                        <button onClick={() => setTaskFilter("active")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${taskFilter === 'active' ? 'bg-cyan-50/10 text-cyan-600 dark:text-cyan-400' : 'text-slate-550 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200'}`}>
                                             Aktív ({(dbState.tasks || []).filter(t => !t.completed).length})
                                         </button>
-                                        <button onClick={() => setTaskFilter("completed")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${taskFilter === 'completed' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-400 hover:text-slate-200'}`}>
+                                        <button onClick={() => setTaskFilter("completed")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${taskFilter === 'completed' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'text-slate-550 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200'}`}>
                                             Kész ({(dbState.tasks || []).filter(t => t.completed).length})
                                         </button>
                                     </div>
@@ -1175,10 +1413,10 @@
                             </div>
 
                             {/* Táblázat */}
-                            <div className="overflow-x-auto rounded-xl border border-slate-800">
+                            <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
                                 <table className="w-full text-left border-collapse">
                                     <thead>
-                                        <tr className="bg-slate-950 text-slate-400 text-xs font-bold uppercase tracking-wider border-b border-slate-800">
+                                        <tr className="bg-slate-50 dark:bg-slate-955 text-slate-550 dark:text-slate-400 text-xs font-bold uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
                                             <th className="py-3 px-4 w-12 text-center">Státusz</th>
                                             <th className="py-3 px-4">Feladat</th>
                                             <th className="py-3 px-4 w-44">Felelős</th>
@@ -1187,29 +1425,29 @@
                                             <th className="py-3 px-4 w-12 text-center">Művelet</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-slate-800/40 text-sm">
+                                    <tbody className="divide-y divide-slate-200 dark:divide-slate-800/40 text-sm">
                                         {filteredTasks.length === 0 ? (
                                             <tr>
                                                 <td colSpan="6" className="py-8 text-center text-slate-500 text-xs">Nincs feladat a megadott szűrési feltételekkel.</td>
                                             </tr>
                                         ) : (
                                             filteredTasks.map(task => (
-                                                <tr key={task.id} className={`transition duration-150 ${task.completed ? 'bg-emerald-500/5 line-through text-emerald-200/55 decoration-emerald-800' : 'hover:bg-slate-900/30'}`}>
+                                                <tr key={task.id} className={`transition duration-150 ${task.completed ? 'bg-emerald-500/5 dark:bg-emerald-500/5 line-through text-slate-400 dark:text-emerald-200/55 decoration-emerald-800' : 'hover:bg-slate-50 dark:hover:bg-slate-900/30 text-slate-800 dark:text-slate-100'}`}>
                                                     <td className="py-3 px-4 text-center">
-                                                        <button onClick={() => handleToggleTask(task.id)} className={`w-5 h-5 rounded flex items-center justify-center mx-auto border transition ${task.completed ? 'bg-emerald-500 border-emerald-400 text-slate-950' : 'border-slate-700 hover:border-cyan-400'}`}>
+                                                        <button onClick={() => handleToggleTask(task.id)} className={`w-5 h-5 rounded flex items-center justify-center mx-auto border transition ${task.completed ? 'bg-emerald-500 border-emerald-400 text-white dark:text-slate-950' : 'border-slate-300 dark:border-slate-700 hover:border-cyan-400'}`}>
                                                             {task.completed && <Icons.Check />}
                                                         </button>
                                                     </td>
-                                                    <td className="py-3 px-4 font-semibold text-slate-200">{task.title}</td>
+                                                    <td className="py-3 px-4 font-semibold">{task.title}</td>
                                                     <td className="py-3 px-4">
-                                                        <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300">
+                                                        <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-900 border border-slate-250 dark:border-slate-800 text-slate-700 dark:text-slate-300">
                                                             {task.assignee}
                                                         </span>
                                                     </td>
-                                                    <td className="py-3 px-4 font-mono text-xs text-slate-300">{task.dueDate}</td>
-                                                    <td className="py-3 px-4 text-xs text-slate-400 max-w-xs truncate" title={task.notes}>{task.notes || "-"}</td>
+                                                    <td className="py-3 px-4 font-mono text-xs text-slate-600 dark:text-slate-300">{task.dueDate}</td>
+                                                    <td className="py-3 px-4 text-xs text-slate-500 dark:text-slate-400 max-w-xs truncate" title={task.notes}>{task.notes || "-"}</td>
                                                     <td className="py-3 px-4 text-center">
-                                                        <button onClick={() => handleDeleteTask(task.id)} className="text-slate-500 hover:text-rose-400 transition p-1 hover:bg-rose-500/10 rounded">
+                                                        <button onClick={() => handleDeleteTask(task.id)} className="text-slate-450 hover:text-rose-500 transition p-1 hover:bg-rose-500/10 rounded">
                                                             <Icons.Trash />
                                                         </button>
                                                     </td>
@@ -1221,44 +1459,44 @@
                             </div>
 
                             {/* Új feladat form */}
-                            <form onSubmit={handleAddTask} className="mt-6 pt-6 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                            <form onSubmit={handleAddTask} className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800/80 grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                                 <div className="md:col-span-4">
-                                    <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Új teendő megnevezése</label>
+                                    <label className="block text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Új teendő megnevezése</label>
                                     <input
                                         type="text"
                                         placeholder="Feladat címe..."
                                         value={newFocusTask.title}
                                         onChange={(e) => setNewFocusTask({ ...newFocusTask, title: e.target.value })}
-                                        className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-2 text-xs text-slate-200"
+                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-slate-200"
                                     />
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Felelős</label>
+                                    <label className="block text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Felelős</label>
                                     <input
                                         type="text"
                                         placeholder="Név vagy részleg..."
                                         value={newFocusTask.assignee}
                                         onChange={(e) => setNewFocusTask({ ...newFocusTask, assignee: e.target.value })}
-                                        className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-2 text-xs text-slate-200"
+                                        className="w-full bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-slate-200"
                                     />
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Határidő</label>
+                                    <label className="block text-[10px] text-slate-505 dark:text-slate-400 uppercase font-bold mb-1">Határidő</label>
                                     <input
                                         type="date"
                                         value={newFocusTask.dueDate}
                                         onChange={(e) => setNewFocusTask({ ...newFocusTask, dueDate: e.target.value })}
-                                        className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg px-2 py-1.5 text-xs text-slate-200"
+                                        className="w-full bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 focus:border-cyan-400 rounded-lg px-2 py-1.5 text-xs text-slate-900 dark:text-slate-200"
                                     />
                                 </div>
                                 <div className="md:col-span-3">
-                                    <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Megjegyzés</label>
+                                    <label className="block text-[10px] text-slate-505 dark:text-slate-400 uppercase font-bold mb-1">Megjegyzés</label>
                                     <input
                                         type="text"
                                         placeholder="Megjegyzés, részletek..."
                                         value={newFocusTask.notes}
                                         onChange={(e) => setNewFocusTask({ ...newFocusTask, notes: e.target.value })}
-                                        className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-2 text-xs text-slate-200"
+                                        className="w-full bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-slate-200"
                                     />
                                 </div>
                                 <div className="md:col-span-1">
@@ -1271,16 +1509,16 @@
                         </div>
 
                         {/* 3. SZEKCIÓ: VIZUÁLIS ÉVES TIMELINE */}
-                        <div className="bg-brand-card border border-slate-800/80 rounded-2xl p-6 relative overflow-hidden group shadow-2xl">
+                        <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 relative overflow-hidden group shadow-sm dark:shadow-2xl">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl"></div>
                             
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                                 <div>
-                                    <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
                                         Vizuális Éves Timeline
                                     </h2>
-                                    <p className="text-xs text-slate-400 mt-0.5">Ütemezett mérföldkövek és marketing akciók havi bontásban, egyedi felelősökkel.</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Ütemezett mérföldkövek és marketing akciók havi bontásban, egyedi felelősökkel.</p>
                                 </div>
                             </div>
 
@@ -1295,44 +1533,44 @@
                                             key={idx} 
                                             className={`p-4 rounded-xl border transition-all duration-200 ${
                                                 isCurrentMonth 
-                                                    ? 'bg-slate-900/80 border-cyan-400 shadow-lg shadow-cyan-500/5 ring-1 ring-cyan-500/10' 
-                                                    : 'bg-slate-950/40 border-slate-800 hover:border-slate-700'
+                                                    ? 'bg-slate-100/80 dark:bg-slate-900/80 border-cyan-400 shadow-md shadow-cyan-500/5 ring-1 ring-cyan-500/10' 
+                                                    : 'bg-slate-50/50 dark:bg-slate-950/40 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                                             }`}
                                         >
-                                            <div className="flex justify-between items-center mb-2.5 border-b border-slate-800/60 pb-1.5">
-                                                <span className={`text-xs font-black uppercase tracking-wider ${isCurrentMonth ? 'text-cyan-400' : 'text-slate-400'}`}>
+                                            <div className="flex justify-between items-center mb-2.5 border-b border-slate-200 dark:border-slate-800/60 pb-1.5">
+                                                <span className={`text-xs font-black uppercase tracking-wider ${isCurrentMonth ? 'text-cyan-500 dark:text-cyan-400' : 'text-slate-400'}`}>
                                                     {m} {isCurrentMonth && '• Jelenleg'}
                                                 </span>
-                                                <span className="text-[10px] font-mono text-slate-650 font-bold">H{idx+1}</span>
+                                                <span className="text-[10px] font-mono text-slate-400 dark:text-slate-650 font-bold">H{idx+1}</span>
                                             </div>
 
                                             <div className="space-y-2 min-h-[100px] max-h-[180px] overflow-y-auto pr-1">
                                                 {eventsInMonth.length === 0 ? (
-                                                    <p className="text-[11px] text-slate-650 italic py-4 text-center font-medium">Nincs mérföldkő</p>
+                                                    <p className="text-[11px] text-slate-400 dark:text-slate-655 italic py-4 text-center font-medium">Nincs mérföldkő</p>
                                                 ) : (
                                                     eventsInMonth.map(event => (
                                                         <div 
                                                             key={event.id} 
                                                             className={`p-2 rounded-lg border text-xs relative group/item transition-all duration-150 ${
-                                                                event.type === 'agency' ? 'bg-cyan-950/20 border-cyan-500/30 hover:border-cyan-400' :
-                                                                event.type === 'client' ? 'bg-fuchsia-950/20 border-fuchsia-500/30 hover:border-fuchsia-400' :
-                                                                'bg-amber-950/20 border-amber-500/30 hover:border-amber-400'
+                                                                event.type === 'agency' ? 'bg-cyan-50/20 border-cyan-500/30 hover:border-cyan-400' :
+                                                                event.type === 'client' ? 'bg-fuchsia-50/20 border-fuchsia-500/30 hover:border-fuchsia-400' :
+                                                                'bg-amber-50/20 border-amber-500/30 hover:border-amber-400'
                                                             }`}
                                                         >
                                                             <div className="flex justify-between items-start">
-                                                                <h4 className="font-bold text-slate-100 pr-4">{event.title}</h4>
+                                                                <h4 className="font-bold text-slate-800 dark:text-slate-100 pr-4">{event.title}</h4>
                                                                 <button 
                                                                     onClick={() => handleDeleteTimelineEvent(event.id)}
-                                                                    className="absolute top-1.5 right-1.5 opacity-0 group-hover/item:opacity-100 text-slate-500 hover:text-rose-400 transition duration-150"
+                                                                    className="absolute top-1.5 right-1.5 opacity-0 group-hover/item:opacity-100 text-slate-500 hover:text-rose-500 transition duration-150"
                                                                 >
                                                                     ✕
                                                                 </button>
                                                             </div>
-                                                            <p className="text-[10px] text-slate-400 mt-1 leading-normal">{event.desc}</p>
+                                                            <p className="text-[10px] text-slate-550 dark:text-slate-400 mt-1 leading-normal">{event.desc}</p>
                                                             {event.assignee && (
-                                                                <div className="mt-1.5 flex items-center justify-between border-t border-slate-800/40 pt-1">
-                                                                    <span className="text-[8px] uppercase tracking-wider text-slate-500">Felelős:</span>
-                                                                    <span className="text-[9px] font-bold text-slate-300">{event.assignee}</span>
+                                                                <div className="mt-1.5 flex items-center justify-between border-t border-slate-200 dark:border-slate-850/40 pt-1">
+                                                                    <span className="text-[8px] uppercase tracking-wider text-slate-400 dark:text-slate-505">Felelős:</span>
+                                                                    <span className="text-[9px] font-bold text-slate-700 dark:text-slate-300">{event.assignee}</span>
                                                                 </div>
                                                             )}
                                                         </div>
@@ -1345,13 +1583,13 @@
                             </div>
 
                             {/* Új Timeline mérföldkő form */}
-                            <form onSubmit={handleAddTimelineEvent} className="pt-5 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+                            <form onSubmit={handleAddTimelineEvent} className="pt-5 border-t border-slate-200 dark:border-slate-800/80 grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
                                 <div className="md:col-span-2">
-                                    <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Cél Hónap</label>
+                                    <label className="block text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Cél Hónap</label>
                                     <select
                                         value={newTimelineEvent.month}
                                         onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, month: parseInt(e.target.value) })}
-                                        className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg px-2 py-1.5 text-xs text-slate-200"
+                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-cyan-400 rounded-lg px-2 py-1.5 text-xs text-slate-800 dark:text-slate-200"
                                     >
                                         {MONTHS.map((m, idx) => (
                                             <option key={idx} value={idx}>{m}</option>
@@ -1359,31 +1597,31 @@
                                     </select>
                                 </div>
                                 <div className="md:col-span-3">
-                                    <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Mérföldkő címe</label>
+                                    <label className="block text-[10px] text-slate-555 dark:text-slate-400 uppercase font-bold mb-1">Mérföldkő címe</label>
                                     <input
                                         type="text"
                                         placeholder="Pl. Karácsonyi Akció..."
                                         value={newTimelineEvent.title}
                                         onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, title: e.target.value })}
-                                        className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-1.5 text-xs text-slate-200"
+                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200"
                                     />
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Felelős (Név)</label>
+                                    <label className="block text-[10px] text-slate-555 dark:text-slate-400 uppercase font-bold mb-1">Felelős (Név)</label>
                                     <input
                                         type="text"
                                         placeholder="Pl. Gábor / Anna..."
                                         value={newTimelineEvent.assignee}
                                         onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, assignee: e.target.value })}
-                                        className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-1.5 text-xs text-slate-200"
+                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200"
                                     />
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Típus</label>
+                                    <label className="block text-[10px] text-slate-555 dark:text-slate-400 uppercase font-bold mb-1">Típus</label>
                                     <select
                                         value={newTimelineEvent.type}
                                         onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, type: e.target.value })}
-                                        className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg px-2 py-1.5 text-xs text-slate-200"
+                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-cyan-400 rounded-lg px-2 py-1.5 text-xs text-slate-800 dark:text-slate-200"
                                     >
                                         <option value="agency">Ügynökség</option>
                                         <option value="client">Ügyfél</option>
@@ -1392,13 +1630,13 @@
                                 </div>
                                 <div className="md:col-span-3 flex gap-2">
                                     <div className="w-full">
-                                        <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Részletek</label>
+                                        <label className="block text-[10px] text-slate-555 dark:text-slate-400 uppercase font-bold mb-1">Részletek</label>
                                         <input
                                             type="text"
                                             placeholder="Leírás..."
                                             value={newTimelineEvent.desc}
                                             onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, desc: e.target.value })}
-                                            className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-1.5 text-xs text-slate-200"
+                                            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-cyan-400 rounded-lg px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200"
                                         />
                                     </div>
                                     <button type="submit" className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 text-slate-950 font-bold p-2 rounded-lg text-xs transition flex items-center justify-center h-8 mt-auto">
@@ -1408,340 +1646,260 @@
                             </form>
                         </div>
 
-                        {/* 4. SZEKCIÓ: KREATÍV MONITOR */}
-                        <div className="bg-brand-card border border-slate-800/80 rounded-2xl p-6 relative overflow-hidden shadow-2xl">
+                        {/* 4. SZEKCIÓ: KREATÍV MONITOR (TISZTA META PLUGIN INTEGRÁCIÓVAL ÉS DIAGNOSZTIKÁVAL) */}
+                        <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 relative overflow-hidden shadow-sm dark:shadow-xl">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/5 rounded-full blur-3xl"></div>
                             
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                                 <div>
-                                    <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-                                        Kreatív Teljesítmény Monitor
+                                        Kreatív Teljesítmény Monitor (Meta Ads Live)
                                     </h2>
-                                    <p className="text-xs text-slate-400 mt-0.5">Kísérd figyelemmel a hirdetéseket! Válassz a Média, az Open Graph vagy a hivatalos Meta Ad Preview Plugin között!</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Élő hirdetések követése a Meta API-ról lehúzott adatok és média szimulációjával. 100% Iframe-mentes golyóálló technológia!</p>
                                 </div>
-                                
-                                <button 
-                                    onClick={() => setShowAdGuide(!showAdGuide)}
-                                    className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-cyan-500/20 text-xs font-black text-cyan-400 hover:bg-cyan-500/5 transition-all"
-                                >
-                                    <Icons.Info />
-                                    <span>Hogyan használjuk a Meta Plugint?</span>
-                                    <span className="text-[10px] text-slate-500">{showAdGuide ? '▲' : '▼'}</span>
-                                </button>
                             </div>
-
-                            {/* BŐVÍTETT ÚTMUTATÓ ACCORDION (A Meta Ad Preview és Google Drive támogatásra optimalizálva) */}
-                            {showAdGuide && (
-                                <div className="bg-slate-950/80 border border-cyan-500/30 rounded-2xl p-5 mb-6 text-xs text-slate-300 space-y-4 animate-fadeIn">
-                                    <h4 className="font-extrabold text-cyan-300 text-sm flex items-center gap-2">
-                                        <Icons.Video />
-                                        Útmutató a Hivatalos Meta Ad Preview Plugin és Google Drive integrációhoz
-                                    </h4>
-                                    <p className="leading-relaxed text-slate-400">
-                                        A Facebook szigorú biztonsági irányelvei tiltják a hirdetések közvetlen külső beágyazását Access Token nélkül. Az alábbi három, 100%-ban stabil megoldást építettem be a SyncBoard-ba a probléma megoldására:
-                                    </p>
-                                    
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-                                        <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-2">
-                                            <span className="px-2 py-0.5 rounded text-[9px] font-black bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 uppercase">1. Megoldás: Meta Plugin (Hivatalos)</span>
-                                            <h5 className="font-bold text-white text-xs">Élő Meta API renderelés</h5>
-                                            <p className="text-slate-400 leading-normal text-[11px]">
-                                                Válaszd a kártyákon a <b>Meta Plugin</b> fület. Adj meg egy Meta Access Tokent (rendszerfelhasználó vagy oldal token) és a hirdetés <b>Creative ID</b>-ját. Ez az API segítségével egy kattintható, élő, interaktív előnézetet tölt be közvetlenül a Meta szervereiről!
-                                            </p>
-                                        </div>
-                                        <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-2">
-                                            <span className="px-2 py-0.5 rounded text-[9px] font-black bg-teal-500/10 text-teal-400 border border-teal-500/20 uppercase">2. Megoldás: Google Drive (Stabil)</span>
-                                            <h5 className="font-bold text-white text-xs">Végtelen, le nem járó Drive videók</h5>
-                                            <p className="text-slate-400 leading-normal text-[11px]">
-                                                Mivel a Meta közvetlen videó-linkjei néhány nap után biztonsági okokból lejárnak, töltsd fel a hirdetés MP4-fájlját a közös Google Drive-ra! Állítsd be a megosztást nyilvánosra, másold be a linket, és a SyncBoard automatikusan, lejárat nélkül ágyazza be a lejátszót.
-                                            </p>
-                                        </div>
-                                        <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-2">
-                                            <span className="px-2 py-0.5 rounded text-[9px] font-black bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/20 uppercase">3. Megoldás: Link Kártya</span>
-                                            <h5 className="font-bold text-white text-xs">Open Graph előnézetek</h5>
-                                            <p className="text-slate-400 leading-normal text-[11px]">
-                                                Illeszd be a céloldal vagy a hirdetés Ad Library megosztási linkjét. Kliensoldali kapunkon keresztül lekérjük a Meta tag-eket (cím, leírás, borítókép), és legenerálunk egy, a Slack/Facebook megosztáshoz hasonló modern kártyát.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 
                                 {/* BEST KREATÍV */}
-                                <div className="bg-slate-950/40 border border-emerald-500/20 rounded-xl p-5 flex flex-col gap-4 relative">
+                                <div className="bg-slate-50/50 dark:bg-slate-950/40 border border-emerald-500/20 rounded-xl p-5 flex flex-col gap-4 relative">
                                     <div className="flex justify-between items-center">
-                                        <span className="text-[10px] font-black uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded">
+                                        <span className="text-[10px] font-black uppercase bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded">
                                             TOP KREATÍV (BEST)
                                         </span>
                                     </div>
                                     <div>
-                                        <label className="block text-[9px] text-emerald-400 uppercase font-black mb-1">Megnevezés</label>
+                                        <label className="block text-[9px] text-emerald-600 dark:text-emerald-400 uppercase font-black mb-1">Megnevezés</label>
                                         <input
                                             type="text"
                                             value={dbState.creatives?.best?.title || ""}
                                             onChange={(e) => handleCreativeChange('best', 'title', e.target.value)}
-                                            className="w-full bg-slate-900/60 border border-slate-800 rounded px-2.5 py-1 text-xs font-semibold text-slate-200 focus:outline-none focus:border-emerald-500"
+                                            className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded px-2.5 py-1 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
-                                    {/* MÓDVÁLASZTÓ TABS */}
-                                    <div className="flex bg-slate-900/80 p-0.5 rounded-lg border border-slate-850 text-[10px]">
-                                        <button 
-                                            type="button" 
-                                            onClick={() => handleCreativeChange('best', 'previewMode', 'media')} 
-                                            className={`flex-1 py-1 rounded font-bold transition-all ${dbState.creatives?.best?.previewMode === 'media' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
-                                        >
-                                            🌐 Média / Drive
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            onClick={() => handleCreativeChange('best', 'previewMode', 'og')} 
-                                            className={`flex-1 py-1 rounded font-bold transition-all ${dbState.creatives?.best?.previewMode === 'og' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
-                                        >
-                                            📄 Link Kártya
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            onClick={() => handleCreativeChange('best', 'previewMode', 'metaPlugin')} 
-                                            className={`flex-1 py-1 rounded font-bold transition-all ${dbState.creatives?.best?.previewMode === 'metaPlugin' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
-                                        >
-                                            💙 Meta Plugin
-                                        </button>
+                                    {/* MOCKUP MEGJELENÍTŐ */}
+                                    <div className="bg-slate-100 dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 p-2 min-h-[300px] flex flex-col items-center justify-center relative shadow-inner">
+                                        {renderMetaMockup(dbState.creatives?.best, bestMetaStatus, false)}
+                                        {bestMetaStatus.success && bestMetaStatus.data?.videoUrl && (
+                                            <div className="mt-3 flex justify-center w-full">
+                                                <a 
+                                                    href={bestMetaStatus.data.videoUrl}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black text-[10px] uppercase shadow-md transition hover:brightness-110 flex items-center gap-1.5"
+                                                >
+                                                    <Icons.ExternalLink />
+                                                    <span>Nyers videó letöltése 🚀</span>
+                                                </a>
+                                            </div>
+                                        )}
                                     </div>
 
-                                    {/* INTELLIGENS MEGJELENÍTŐ */}
-                                    <div className="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 aspect-video flex items-center justify-center relative shadow-inner">
-                                        {renderMediaPreview(dbState.creatives?.best, false)}
-                                    </div>
-
-                                    {/* DINAMIKUS INPUTOK PREVIEW MÓD ALAPJÁN */}
-                                    {dbState.creatives?.best?.previewMode === 'media' && (
+                                    {/* INPUTOK A PREVIEW-HOZ */}
+                                    <div className="space-y-3 bg-slate-100 dark:bg-slate-900/40 p-3 rounded-xl border border-slate-250 dark:border-slate-800/80">
+                                        
+                                        {/* Golyóálló közvetlen URL / kerültőutas beillesztés */}
                                         <div>
-                                            <label className="block text-[9px] text-slate-400 uppercase font-bold mb-1">Média Link (Google Drive, YouTube, Vimeo vagy közvetlen MP4)</label>
+                                            <label className="block text-[9px] text-teal-600 dark:text-cyan-400 font-bold uppercase tracking-wider mb-1">
+                                                🚀 Közvetlen Média Link (Kép / Videó URL – API Kerülőút)
+                                            </label>
                                             <input
                                                 type="text"
-                                                placeholder="Másold be a Drive vagy YouTube hivatkozást..."
+                                                placeholder="Illessz be egy Drive videót, YouTube-ot vagy MP4 linket az azonnali rendereléshez!"
                                                 value={dbState.creatives?.best?.imageUrl || ""}
                                                 onChange={(e) => handleCreativeChange('best', 'imageUrl', e.target.value)}
-                                                className="w-full bg-slate-900/60 border border-slate-800 rounded px-2.5 py-1 text-[10px] text-slate-300 focus:outline-none focus:border-cyan-400"
+                                                className="w-full bg-white dark:bg-slate-950 border border-cyan-500/30 rounded px-2.5 py-1.5 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-cyan-400 font-semibold animate-pulse"
                                             />
                                         </div>
-                                    )}
 
-                                    {dbState.creatives?.best?.previewMode === 'og' && (
-                                        /* Open Graph Előnézeti Kártya */
-                                        renderLinkPreviewCard(bestOgPreview, dbState.creatives?.best?.title, dbState.creatives?.best?.url)
-                                    )}
-
-                                    {dbState.creatives?.best?.previewMode === 'metaPlugin' && (
-                                        <div className="space-y-3 bg-slate-900/40 p-3 rounded-xl border border-slate-800/80">
-                                            <div className="grid grid-cols-2 gap-2">
-                                                <div>
-                                                    <label className="block text-[8px] text-slate-400 uppercase font-bold mb-0.5">Creative ID</label>
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Pl. 23812345678"
-                                                        value={dbState.creatives?.best?.creativeId || ""}
-                                                        onChange={(e) => handleCreativeChange('best', 'creativeId', e.target.value)}
-                                                        className="w-full bg-slate-950 border border-slate-850 rounded px-2 py-1 text-[10px] text-slate-200 focus:outline-none focus:border-cyan-400"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-[8px] text-slate-400 uppercase font-bold mb-0.5">Előnézet Formátum</label>
-                                                    <select
-                                                        value={dbState.creatives?.best?.adFormat || "MOBILE_FEED_STANDARD"}
-                                                        onChange={(e) => handleCreativeChange('best', 'adFormat', e.target.value)}
-                                                        className="w-full bg-slate-950 border border-slate-850 rounded px-2 py-1 text-[10px] text-slate-300 focus:outline-none focus:border-cyan-400"
-                                                    >
-                                                        <option value="MOBILE_FEED_STANDARD">Mobil Hírfolyam</option>
-                                                        <option value="DESKTOP_FEED_STANDARD">Asztali Hírfolyam</option>
-                                                        <option value="INSTAGRAM_STREAM">Instagram Feed</option>
-                                                        <option value="INSTAGRAM_STORY">Instagram Story</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                        <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-200 dark:border-slate-800">
                                             <div>
-                                                <label className="block text-[8px] text-slate-400 uppercase font-bold mb-0.5">Meta Access Token</label>
+                                                <label className="block text-[8px] text-slate-500 font-bold mb-0.5">Creative ID</label>
                                                 <input
-                                                    type="password"
-                                                    placeholder="Token (EAABw...)"
-                                                    value={dbState.creatives?.best?.accessToken || ""}
-                                                    onChange={(e) => handleCreativeChange('best', 'accessToken', e.target.value)}
-                                                    className="w-full bg-slate-950 border border-slate-850 rounded px-2 py-1 text-[10px] text-slate-200 focus:outline-none focus:border-cyan-400"
+                                                    type="text"
+                                                    placeholder="Pl. 120247072..."
+                                                    value={dbState.creatives?.best?.creativeId || ""}
+                                                    onChange={(e) => handleCreativeChange('best', 'creativeId', e.target.value)}
+                                                    className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-855 rounded px-2 py-1 text-[10px] text-slate-900 dark:text-slate-200 focus:outline-none focus:border-cyan-400"
                                                 />
                                             </div>
+                                            <div>
+                                                <label className="block text-[8px] text-slate-500 font-bold mb-0.5">Előnézet Formátum</label>
+                                                <select
+                                                    value={dbState.creatives?.best?.adFormat || "MOBILE_FEED_STANDARD"}
+                                                    onChange={(e) => handleCreativeChange('best', 'adFormat', e.target.value)}
+                                                    className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-855 rounded px-2 py-1 text-[10px] text-slate-800 dark:text-slate-300 focus:outline-none"
+                                                >
+                                                    <option value="MOBILE_FEED_STANDARD">Mobil Hírfolyam (4:5)</option>
+                                                    <option value="INSTAGRAM_STREAM">Instagram Kocka (1:1)</option>
+                                                    <option value="DESKTOP_FEED_STANDARD">Asztali Hírfolyam (16:9)</option>
+                                                    <option value="INSTAGRAM_STORY">Insta / FB Story (9:16)</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    )}
+                                        <div>
+                                            <label className="block text-[8px] text-slate-550 dark:text-slate-400 uppercase font-bold mb-0.5">Meta Access Token</label>
+                                            <input
+                                                type="password"
+                                                placeholder="Token (EAABw...)"
+                                                value={dbState.creatives?.best?.accessToken || ""}
+                                                onChange={(e) => handleCreativeChange('best', 'accessToken', e.target.value)}
+                                                className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-855 rounded px-2 py-1 text-[10px] text-slate-900 dark:text-slate-200 focus:outline-none focus:border-cyan-400"
+                                            />
+                                        </div>
+                                    </div>
 
                                     <div>
-                                        <label className="block text-[9px] text-slate-400 uppercase font-bold mb-1">Cél Hivatkozás (Hirdetéstár vagy Landing oldal linkje)</label>
+                                        <label className="block text-[9px] text-slate-505 dark:text-slate-400 uppercase font-bold mb-1">Cél Hivatkozás (Hirdetéstár vagy Landing oldal linkje)</label>
                                         <input
                                             type="text"
                                             placeholder="https://facebook.com/ads/library/..."
                                             value={dbState.creatives?.best?.url || ""}
                                             onChange={(e) => handleCreativeChange('best', 'url', e.target.value)}
-                                            className="w-full bg-slate-900/60 border border-slate-800 rounded px-2.5 py-1 text-[10px] text-slate-400 focus:outline-none focus:border-cyan-400"
+                                            className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded px-2.5 py-1 text-[10px] text-slate-800 dark:text-slate-505 focus:outline-none focus:border-cyan-400"
                                         />
                                     </div>
-                                    <div className="grid grid-cols-2 gap-3 bg-slate-900/20 p-2.5 rounded-lg border border-slate-800">
+                                    <div className="grid grid-cols-2 gap-3 bg-slate-100 dark:bg-slate-900/20 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800">
                                         <div>
-                                            <span className="text-[9px] text-slate-400 block font-bold">Átklikk (CTR)</span>
-                                            <input type="number" step="0.01" value={dbState.creatives?.best?.ctr || 0} onChange={(e) => handleCreativeChange('best', 'ctr', parseFloat(e.target.value) || 0)} className="bg-transparent text-emerald-400 font-bold font-mono text-sm w-full focus:outline-none" />
+                                            <span className="text-[9px] text-slate-505 dark:text-slate-400 block font-bold">Átklikk (CTR)</span>
+                                            <input type="number" step="0.01" value={dbState.creatives?.best?.ctr || 0} onChange={(e) => handleCreativeChange('best', 'ctr', parseFloat(e.target.value) || 0)} className="bg-transparent text-emerald-600 dark:text-emerald-400 font-bold font-mono text-sm w-full focus:outline-none" />
                                         </div>
                                         <div>
-                                            <span className="text-[9px] text-slate-400 block font-bold">Megtérülés (ROAS)</span>
-                                            <input type="number" step="0.1" value={dbState.creatives?.best?.roas || 0} onChange={(e) => handleCreativeChange('best', 'roas', parseFloat(e.target.value) || 0)} className="bg-transparent text-emerald-400 font-bold font-mono text-sm w-full focus:outline-none" />
+                                            <span className="text-[9px] text-slate-505 dark:text-slate-400 block font-bold">Megtérülés (ROAS)</span>
+                                            <input type="number" step="0.1" value={dbState.creatives?.best?.roas || 0} onChange={(e) => handleCreativeChange('best', 'roas', parseFloat(e.target.value) || 0)} className="bg-transparent text-emerald-600 dark:text-emerald-400 font-bold font-mono text-sm w-full focus:outline-none" />
                                         </div>
                                     </div>
-                                    <div className="space-y-2.5 pt-3 border-t border-slate-800/40">
+                                    <div className="space-y-2.5 pt-3 border-t border-slate-200 dark:border-slate-800/40">
                                         <div>
-                                            <label className="block text-[9px] text-emerald-400 uppercase font-bold mb-0.5">Konklúzió</label>
-                                            <textarea rows="2" value={dbState.creatives?.best?.conclusions || ""} onChange={(e) => handleCreativeChange('best', 'conclusions', e.target.value)} className="w-full bg-slate-900/40 border border-slate-800 rounded p-1.5 text-xs text-slate-300 resize-none focus:outline-none focus:border-emerald-500" />
+                                            <label className="block text-[9px] text-emerald-600 dark:text-emerald-400 uppercase font-bold mb-0.5">Konklúzió (Facebook mockup szöveg)</label>
+                                            <textarea rows="2" value={dbState.creatives?.best?.conclusions || ""} onChange={(e) => handleCreativeChange('best', 'conclusions', e.target.value)} className="w-full bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded p-1.5 text-xs text-slate-800 dark:text-slate-300 resize-none focus:outline-none focus:border-emerald-500" />
                                         </div>
                                         <div>
-                                            <label className="block text-[9px] text-emerald-400 uppercase font-bold mb-0.5">További Javaslat</label>
-                                            <textarea rows="2" value={dbState.creatives?.best?.recommendations || ""} onChange={(e) => handleCreativeChange('best', 'recommendations', e.target.value)} className="w-full bg-slate-900/40 border border-slate-800 rounded p-1.5 text-xs text-slate-300 resize-none focus:outline-none focus:border-emerald-500" />
+                                            <label className="block text-[9px] text-emerald-600 dark:text-emerald-400 uppercase font-bold mb-0.5">További Javaslat</label>
+                                            <textarea rows="2" value={dbState.creatives?.best?.recommendations || ""} onChange={(e) => handleCreativeChange('best', 'recommendations', e.target.value)} className="w-full bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded p-1.5 text-xs text-slate-800 dark:text-slate-300 resize-none focus:outline-none focus:border-emerald-500" />
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* WORST KREATÍV */}
-                                <div className="bg-slate-950/40 border border-rose-500/20 rounded-xl p-5 flex flex-col gap-4 relative">
+                                <div className="bg-slate-50/50 dark:bg-slate-955/40 border border-rose-500/20 rounded-xl p-5 flex flex-col gap-4 relative">
                                     <div className="flex justify-between items-center">
-                                        <span className="text-[10px] font-black uppercase bg-rose-500/10 text-rose-400 border border-rose-500/20 px-2 py-0.5 rounded">
+                                        <span className="text-[10px] font-black uppercase bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 px-2 py-0.5 rounded">
                                             LEGKEVÉSBÉ TELJESÍTŐ (WORST)
                                         </span>
                                     </div>
                                     <div>
-                                        <label className="block text-[9px] text-rose-400 uppercase font-black mb-1">Megnevezés</label>
+                                        <label className="block text-[9px] text-rose-600 dark:text-rose-400 uppercase font-black mb-1">Megnevezés</label>
                                         <input
                                             type="text"
                                             value={dbState.creatives?.worst?.title || ""}
                                             onChange={(e) => handleCreativeChange('worst', 'title', e.target.value)}
-                                            className="w-full bg-slate-900/60 border border-slate-800 rounded px-2.5 py-1 text-xs font-semibold text-slate-200 focus:outline-none focus:border-rose-500"
+                                            className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded px-2.5 py-1 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:border-rose-500"
                                         />
                                     </div>
 
-                                    {/* MÓDVÁLASZTÓ TABS */}
-                                    <div className="flex bg-slate-900/80 p-0.5 rounded-lg border border-slate-850 text-[10px]">
-                                        <button 
-                                            type="button" 
-                                            onClick={() => handleCreativeChange('worst', 'previewMode', 'media')} 
-                                            className={`flex-1 py-1 rounded font-bold transition-all ${dbState.creatives?.worst?.previewMode === 'media' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
-                                        >
-                                            🌐 Média / Drive
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            onClick={() => handleCreativeChange('worst', 'previewMode', 'og')} 
-                                            className={`flex-1 py-1 rounded font-bold transition-all ${dbState.creatives?.worst?.previewMode === 'og' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
-                                        >
-                                            📄 Link Kártya
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            onClick={() => handleCreativeChange('worst', 'previewMode', 'metaPlugin')} 
-                                            className={`flex-1 py-1 rounded font-bold transition-all ${dbState.creatives?.worst?.previewMode === 'metaPlugin' ? 'bg-cyan-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
-                                        >
-                                            💙 Meta Plugin
-                                        </button>
+                                    {/* MOCKUP MEGJELENÍTŐ */}
+                                    <div className="bg-slate-100 dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 p-2 min-h-[300px] flex flex-col items-center justify-center relative shadow-inner">
+                                        {renderMetaMockup(dbState.creatives?.worst, worstMetaStatus, true)}
+                                        {worstMetaStatus.success && worstMetaStatus.data?.videoUrl && (
+                                            <div className="mt-3 flex justify-center w-full">
+                                                <a 
+                                                    href={worstMetaStatus.data.videoUrl}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="px-3 py-1.5 rounded-lg bg-rose-505 text-slate-950 font-black text-[10px] uppercase shadow-md transition hover:brightness-110 flex items-center gap-1.5"
+                                                >
+                                                    <Icons.ExternalLink />
+                                                    <span>Nyers videó letöltése 🚀</span>
+                                                </a>
+                                            </div>
+                                        )}
                                     </div>
 
-                                    {/* INTELLIGENS MEGJELENÍTŐ */}
-                                    <div className="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 aspect-video flex items-center justify-center relative shadow-inner">
-                                        {renderMediaPreview(dbState.creatives?.worst, true)}
-                                    </div>
-
-                                    {/* DINAMIKUS INPUTOK PREVIEW MÓD ALAPJÁN */}
-                                    {dbState.creatives?.worst?.previewMode === 'media' && (
+                                    {/* INPUTOK A PREVIEW-HOZ */}
+                                    <div className="space-y-3 bg-slate-100 dark:bg-slate-900/40 p-3 rounded-xl border border-slate-250 dark:border-slate-800/80">
+                                        
+                                        {/* Golyóálló közvetlen URL / kerültőutas beillesztés */}
                                         <div>
-                                            <label className="block text-[9px] text-slate-400 uppercase font-bold mb-1">Média Link (Google Drive, YouTube, Vimeo vagy közvetlen MP4)</label>
+                                            <label className="block text-[9px] text-teal-600 dark:text-cyan-400 font-bold uppercase tracking-wider mb-1">
+                                                🚀 Közvetlen Média Link (Kép / Videó URL – API Kerülőút)
+                                            </label>
                                             <input
                                                 type="text"
-                                                placeholder="Másold be a Drive vagy YouTube hivatkozást..."
+                                                placeholder="Illessz be egy Drive videót, YouTube-ot vagy MP4 linket az azonnali rendereléshez!"
                                                 value={dbState.creatives?.worst?.imageUrl || ""}
                                                 onChange={(e) => handleCreativeChange('worst', 'imageUrl', e.target.value)}
-                                                className="w-full bg-slate-900/60 border border-slate-800 rounded px-2.5 py-1 text-[10px] text-slate-300 focus:outline-none focus:border-cyan-400"
+                                                className="w-full bg-white dark:bg-slate-955 border border-cyan-500/30 rounded px-2.5 py-1.5 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-cyan-400 font-semibold animate-pulse"
                                             />
                                         </div>
-                                    )}
 
-                                    {dbState.creatives?.worst?.previewMode === 'og' && (
-                                        /* Open Graph Előnézeti Kártya */
-                                        renderLinkPreviewCard(worstOgPreview, dbState.creatives?.worst?.title, dbState.creatives?.worst?.url)
-                                    )}
-
-                                    {dbState.creatives?.worst?.previewMode === 'metaPlugin' && (
-                                        <div className="space-y-3 bg-slate-900/40 p-3 rounded-xl border border-slate-800/80">
-                                            <div className="grid grid-cols-2 gap-2">
-                                                <div>
-                                                    <label className="block text-[8px] text-slate-400 uppercase font-bold mb-0.5">Creative ID</label>
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Pl. 23812345678"
-                                                        value={dbState.creatives?.worst?.creativeId || ""}
-                                                        onChange={(e) => handleCreativeChange('worst', 'creativeId', e.target.value)}
-                                                        className="w-full bg-slate-950 border border-slate-850 rounded px-2 py-1 text-[10px] text-slate-200 focus:outline-none"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-[8px] text-slate-400 uppercase font-bold mb-0.5">Előnézet Formátum</label>
-                                                    <select
-                                                        value={dbState.creatives?.worst?.adFormat || "MOBILE_FEED_STANDARD"}
-                                                        onChange={(e) => handleCreativeChange('worst', 'adFormat', e.target.value)}
-                                                        className="w-full bg-slate-950 border border-slate-850 rounded px-2 py-1 text-[10px] text-slate-350 focus:outline-none"
-                                                    >
-                                                        <option value="MOBILE_FEED_STANDARD">Mobil Hírfolyam</option>
-                                                        <option value="DESKTOP_FEED_STANDARD">Asztali Hírfolyam</option>
-                                                        <option value="INSTAGRAM_STREAM">Instagram Feed</option>
-                                                        <option value="INSTAGRAM_STORY">Instagram Story</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                        <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-200 dark:border-slate-805">
                                             <div>
-                                                <label className="block text-[8px] text-slate-400 uppercase font-bold mb-0.5">Meta Access Token</label>
+                                                <label className="block text-[8px] text-slate-550 font-bold mb-0.5">Creative ID</label>
                                                 <input
-                                                    type="password"
-                                                    placeholder="Token (EAABw...)"
-                                                    value={dbState.creatives?.worst?.accessToken || ""}
-                                                    onChange={(e) => handleCreativeChange('worst', 'accessToken', e.target.value)}
-                                                    className="w-full bg-slate-950 border border-slate-850 rounded px-2 py-1 text-[10px] text-slate-200 focus:outline-none"
+                                                    type="text"
+                                                    placeholder="Pl. 120247072..."
+                                                    value={dbState.creatives?.worst?.creativeId || ""}
+                                                    onChange={(e) => handleCreativeChange('worst', 'creativeId', e.target.value)}
+                                                    className="w-full bg-white dark:bg-slate-955 border border-slate-200 dark:border-slate-250 rounded px-2 py-1 text-[10px] text-slate-900 dark:text-slate-200 focus:outline-none"
                                                 />
                                             </div>
+                                            <div>
+                                                <label className="block text-[8px] text-slate-550 font-bold mb-0.5">Előnézet Formátum</label>
+                                                <select
+                                                    value={dbState.creatives?.worst?.adFormat || "MOBILE_FEED_STANDARD"}
+                                                    onChange={(e) => handleCreativeChange('worst', 'adFormat', e.target.value)}
+                                                    className="w-full bg-white dark:bg-slate-955 border border-slate-200 dark:border-slate-850 rounded px-2 py-1 text-[10px] text-slate-850 dark:text-slate-355 focus:outline-none"
+                                                >
+                                                    <option value="MOBILE_FEED_STANDARD">Mobil Hírfolyam (4:5)</option>
+                                                    <option value="INSTAGRAM_STREAM">Instagram Kocka (1:1)</option>
+                                                    <option value="DESKTOP_FEED_STANDARD">Asztali Hírfolyam (16:9)</option>
+                                                    <option value="INSTAGRAM_STORY">Insta / FB Story (9:16)</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    )}
+                                        <div>
+                                            <label className="block text-[8px] text-slate-550 dark:text-slate-400 uppercase font-bold mb-0.5">Meta Access Token</label>
+                                            <input
+                                                type="password"
+                                                placeholder="Token (EAABw...)"
+                                                value={dbState.creatives?.worst?.accessToken || ""}
+                                                onChange={(e) => handleCreativeChange('worst', 'accessToken', e.target.value)}
+                                                className="w-full bg-white dark:bg-slate-955 border border-slate-250 rounded px-2 py-1 text-[10px] text-slate-900 dark:text-slate-200 focus:outline-none"
+                                            />
+                                        </div>
+                                    </div>
 
                                     <div>
-                                        <label className="block text-[9px] text-slate-400 uppercase font-bold mb-1">Cél Hivatkozás (Hirdetéstár vagy Landing oldal linkje)</label>
+                                        <label className="block text-[9px] text-slate-550 dark:text-slate-450 uppercase font-bold mb-1">Cél Hivatkozás (Hirdetéstár vagy Landing oldal linkje)</label>
                                         <input
                                             type="text"
                                             placeholder="https://facebook.com/ads/library/..."
                                             value={dbState.creatives?.worst?.url || ""}
                                             onChange={(e) => handleCreativeChange('worst', 'url', e.target.value)}
-                                            className="w-full bg-slate-900/60 border border-slate-800 rounded px-2.5 py-1 text-[10px] text-slate-400 focus:outline-none"
+                                            className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded px-2.5 py-1 text-[10px] text-slate-800 dark:text-slate-500 focus:outline-none"
                                         />
                                     </div>
-                                    <div className="grid grid-cols-2 gap-3 bg-slate-900/20 p-2.5 rounded-lg border border-slate-800">
+                                    <div className="grid grid-cols-2 gap-3 bg-slate-100 dark:bg-slate-900/20 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800">
                                         <div>
-                                            <span className="text-[9px] text-slate-400 block font-bold">Átklikk (CTR)</span>
-                                            <input type="number" step="0.01" value={dbState.creatives?.worst?.ctr || 0} onChange={(e) => handleCreativeChange('worst', 'ctr', parseFloat(e.target.value) || 0)} className="bg-transparent text-rose-400 font-bold font-mono text-sm w-full focus:outline-none" />
+                                            <span className="text-[9px] text-slate-505 dark:text-slate-400 block font-bold">Átklikk (CTR)</span>
+                                            <input type="number" step="0.01" value={dbState.creatives?.worst?.ctr || 0} onChange={(e) => handleCreativeChange('worst', 'ctr', parseFloat(e.target.value) || 0)} className="bg-transparent text-rose-655 dark:text-rose-400 font-bold font-mono text-sm w-full focus:outline-none" />
                                         </div>
                                         <div>
-                                            <span className="text-[9px] text-slate-400 block font-bold">Megtérülés (ROAS)</span>
-                                            <input type="number" step="0.1" value={dbState.creatives?.worst?.roas || 0} onChange={(e) => handleCreativeChange('worst', 'roas', parseFloat(e.target.value) || 0)} className="bg-transparent text-rose-400 font-bold font-mono text-sm w-full focus:outline-none" />
+                                            <span className="text-[9px] text-slate-505 dark:text-slate-400 block font-bold">Megtérülés (ROAS)</span>
+                                            <input type="number" step="0.1" value={dbState.creatives?.worst?.roas || 0} onChange={(e) => handleCreativeChange('worst', 'roas', parseFloat(e.target.value) || 0)} className="bg-transparent text-rose-655 dark:text-rose-400 font-bold font-mono text-sm w-full focus:outline-none" />
                                         </div>
                                     </div>
-                                    <div className="space-y-2.5 pt-3 border-t border-slate-800/40">
+                                    <div className="space-y-2.5 pt-3 border-t border-slate-200 dark:border-slate-800/40">
                                         <div>
-                                            <label className="block text-[9px] text-rose-400 uppercase font-bold mb-0.5">Konklúzió</label>
-                                            <textarea rows="2" value={dbState.creatives?.worst?.conclusions || ""} onChange={(e) => handleCreativeChange('worst', 'conclusions', e.target.value)} className="w-full bg-slate-900/40 border border-slate-800 rounded p-1.5 text-xs text-slate-300 resize-none focus:outline-none focus:border-rose-500" />
+                                            <label className="block text-[9px] text-rose-605 dark:text-rose-400 uppercase font-bold mb-0.5">Konklúzió (Facebook mockup szöveg)</label>
+                                            <textarea rows="2" value={dbState.creatives?.worst?.conclusions || ""} onChange={(e) => handleCreativeChange('worst', 'conclusions', e.target.value)} className="w-full bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded p-1.5 text-xs text-slate-800 dark:text-slate-300 resize-none focus:outline-none focus:border-rose-500" />
                                         </div>
                                         <div>
-                                            <label className="block text-[9px] text-rose-400 uppercase font-bold mb-0.5">További Javaslat</label>
-                                            <textarea rows="2" value={dbState.creatives?.worst?.recommendations || ""} onChange={(e) => handleCreativeChange('worst', 'recommendations', e.target.value)} className="w-full bg-slate-900/40 border border-slate-800 rounded p-1.5 text-xs text-slate-300 resize-none focus:outline-none focus:border-rose-500" />
+                                            <label className="block text-[9px] text-rose-605 dark:text-rose-400 uppercase font-bold mb-0.5">További Javaslat</label>
+                                            <textarea rows="2" value={dbState.creatives?.worst?.recommendations || ""} onChange={(e) => handleCreativeChange('worst', 'recommendations', e.target.value)} className="w-full bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded p-1.5 text-xs text-slate-800 dark:text-slate-300 resize-none focus:outline-none focus:border-rose-500" />
                                         </div>
                                     </div>
                                 </div>
@@ -1750,16 +1908,16 @@
                         </div>
 
                         {/* 5. SZEKCIÓ: HAVI ELEMZÉS */}
-                        <div className="bg-brand-card border border-slate-800/80 rounded-2xl p-6 relative overflow-hidden shadow-2xl">
+                        <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 relative overflow-hidden shadow-sm dark:shadow-2xl">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl"></div>
                             
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                                 <div>
-                                    <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
                                         Havi Elemzés és Akcióterv
                                     </h2>
-                                    <p className="text-xs text-slate-400 mt-0.5">Rendszeres marketing-elemzés, megjegyzések és kapcsolódó riportálási linkek.</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Rendszeres marketing-elemzés, megjegyzések és kapcsolódó riportálási linkek.</p>
                                 </div>
                             </div>
 
@@ -1767,58 +1925,58 @@
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                                 
                                 {/* FACEBOOK ADS OSZLOP */}
-                                <div className="bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80 space-y-4">
-                                    <h3 className="text-sm font-extrabold text-cyan-400 uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                                <div className="bg-slate-50 dark:bg-slate-955/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-800/80 space-y-4">
+                                    <h3 className="text-sm font-extrabold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-505"></span>
                                         Facebook Ads Kampányok
                                     </h3>
                                     
                                     <div>
-                                        <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Szakmai Elemzés (Free Text)</label>
+                                        <label className="block text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Szakmai Elemzés (Free Text)</label>
                                         <textarea
                                             rows="4"
                                             value={dbState.monthlyAnalysis?.fbAds || ""}
                                             onChange={(e) => handleMonthlyAnalysisChange('fbAds', e.target.value)}
-                                            className="w-full bg-slate-900/60 border border-slate-800 focus:border-cyan-400 rounded-lg p-2.5 text-xs text-slate-200 transition focus:outline-none"
+                                            className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-xs text-slate-800 dark:text-slate-200 transition focus:outline-none"
                                             placeholder="Írd le a Facebook kampányok havi teljesítményét..."
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] text-emerald-400 uppercase font-bold mb-1">Javaslatok és Következő lépések</label>
+                                        <label className="block text-[10px] text-emerald-600 dark:text-emerald-400 uppercase font-bold mb-1">Javaslatok és Következő lépések</label>
                                         <textarea
                                             rows="3"
                                             value={dbState.monthlyAnalysis?.fbSuggestions || ""}
                                             onChange={(e) => handleMonthlyAnalysisChange('fbSuggestions', e.target.value)}
-                                            className="w-full bg-slate-900/60 border border-slate-800 focus:border-emerald-500 rounded-lg p-2.5 text-xs text-slate-200 transition focus:outline-none"
+                                            className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded p-2.5 text-xs text-slate-800 dark:text-slate-200 transition focus:outline-none"
                                             placeholder="Facebook optimalizálási lépések..."
                                         />
                                     </div>
                                 </div>
 
                                 {/* GOOGLE ADS OSZLOP */}
-                                <div className="bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80 space-y-4">
-                                    <h3 className="text-sm font-extrabold text-fuchsia-400 uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400"></span>
+                                <div className="bg-slate-50 dark:bg-slate-955/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-800/80 space-y-4">
+                                    <h3 className="text-sm font-extrabold text-fuchsia-600 dark:text-fuchsia-400 uppercase tracking-wider flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-505"></span>
                                         Google Ads Kampányok
                                     </h3>
                                     
                                     <div>
-                                        <label className="block text-[10px] text-slate-400 uppercase font-bold mb-1">Szakmai Elemzés (Free Text)</label>
+                                        <label className="block text-[10px] text-slate-505 dark:text-slate-400 uppercase font-bold mb-1">Szakmai Elemzés (Free Text)</label>
                                         <textarea
                                             rows="4"
                                             value={dbState.monthlyAnalysis?.googleAds || ""}
                                             onChange={(e) => handleMonthlyAnalysisChange('googleAds', e.target.value)}
-                                            className="w-full bg-slate-900/60 border border-slate-800 focus:border-fuchsia-500 rounded-lg p-2.5 text-xs text-slate-200 transition focus:outline-none"
+                                            className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 focus:border-fuchsia-500 rounded p-2.5 text-xs text-slate-800 dark:text-slate-200 transition focus:outline-none"
                                             placeholder="Írd le a Google kampányok havi teljesítményét..."
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] text-emerald-400 uppercase font-bold mb-1">Javaslatok és Következő lépések</label>
+                                        <label className="block text-[10px] text-emerald-600 dark:text-emerald-400 uppercase font-bold mb-1">Javaslatok és Következő lépések</label>
                                         <textarea
                                             rows="3"
                                             value={dbState.monthlyAnalysis?.googleSuggestions || ""}
                                             onChange={(e) => handleMonthlyAnalysisChange('googleSuggestions', e.target.value)}
-                                            className="w-full bg-slate-900/60 border border-slate-800 focus:border-emerald-500 rounded-lg p-2.5 text-xs text-slate-200 transition focus:outline-none"
+                                            className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 focus:border-emerald-500 rounded p-2.5 text-xs text-slate-800 dark:text-slate-200 transition focus:outline-none"
                                             placeholder="Google Ads optimalizálási javaslatok..."
                                         />
                                     </div>
@@ -1827,20 +1985,20 @@
                             </div>
 
                             {/* LINKEK ÉS BEÁLLÍTÁSUK */}
-                            <div className="bg-slate-950/40 p-4 rounded-xl border border-slate-800/60 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="bg-slate-50 dark:bg-slate-955/40 p-4 rounded-xl border border-slate-200 dark:border-slate-800/60 grid grid-cols-1 md:grid-cols-2 gap-6">
                                 
                                 {/* Link 1: Részletes elemzés */}
                                 <div className="space-y-2">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-[10px] text-slate-400 uppercase font-bold">Részletes riport linkje</span>
+                                    <div className="flex justify-between items-center gap-2">
+                                        <span className="text-[10px] text-slate-505 dark:text-slate-400 uppercase font-bold">Részletes riport linkje</span>
                                         <a 
                                             href={dbState.monthlyAnalysis?.detailedAnalysisUrl || "#"} 
                                             target="_blank" 
                                             rel="noreferrer"
-                                            className="px-3 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500 text-cyan-400 hover:text-slate-950 border border-cyan-500/20 text-xs font-black transition-all flex items-center gap-1.5"
+                                            className="px-3 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500 text-cyan-600 dark:text-cyan-400 hover:text-slate-950 border border-cyan-500/20 text-xs font-black transition-all flex items-center gap-1.5"
                                         >
                                             <Icons.ExternalLink />
-                                            <span>Részletes Elemzés Megnyitása</span>
+                                            <span>Részletes Elemzés</span>
                                         </a>
                                     </div>
                                     <input 
@@ -1848,19 +2006,19 @@
                                         value={dbState.monthlyAnalysis?.detailedAnalysisUrl || ""}
                                         onChange={(e) => handleMonthlyAnalysisChange('detailedAnalysisUrl', e.target.value)}
                                         placeholder="Looker Studio vagy Google Slides riport URL..."
-                                        className="w-full bg-slate-950 border border-slate-800/80 rounded px-2.5 py-1.5 text-xs text-slate-400 focus:outline-none focus:border-cyan-400"
+                                        className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 rounded px-2.5 py-1.5 text-xs text-slate-700 dark:text-slate-400 focus:outline-none focus:border-cyan-400"
                                     />
                                 </div>
 
                                 {/* Link 2: Számlák */}
                                 <div className="space-y-2">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-[10px] text-slate-400 uppercase font-bold">Számlák elérése</span>
+                                    <div className="flex justify-between items-center gap-2">
+                                        <span className="text-[10px] text-slate-505 dark:text-slate-400 uppercase font-bold">Számlák elérése</span>
                                         <a 
                                             href={dbState.monthlyAnalysis?.invoicesUrl || "#"} 
                                             target="_blank" 
                                             rel="noreferrer"
-                                            className="px-3 py-1.5 rounded-lg bg-fuchsia-500/15 hover:bg-fuchsia-500 text-fuchsia-400 hover:text-slate-950 border border-fuchsia-500/20 text-xs font-black transition-all flex items-center gap-1.5"
+                                            className="px-3 py-1.5 rounded-lg bg-fuchsia-500/10 hover:bg-fuchsia-500 text-fuchsia-600 dark:text-fuchsia-400 hover:text-slate-955 border border-fuchsia-500/20 text-xs font-black transition-all flex items-center gap-1.5"
                                         >
                                             <Icons.Folder />
                                             <span>Számlák Megnyitása</span>
@@ -1871,7 +2029,7 @@
                                         value={dbState.monthlyAnalysis?.invoicesUrl || ""}
                                         onChange={(e) => handleMonthlyAnalysisChange('invoicesUrl', e.target.value)}
                                         placeholder="Drive mappa vagy számlázási felület URL..."
-                                        className="w-full bg-slate-950 border border-slate-800/80 rounded px-2.5 py-1.5 text-xs text-slate-400 focus:outline-none focus:border-fuchsia-500"
+                                        className="w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 rounded px-2.5 py-1.5 text-xs text-slate-700 dark:text-slate-400 focus:outline-none"
                                     />
                                 </div>
 
@@ -1880,51 +2038,51 @@
                         </div>
 
                         {/* 6. SZEKCIÓ: TELJESÍTETT CÉLOK ARCHÍVUMA */}
-                        <div className="bg-brand-card border border-slate-800/80 rounded-2xl p-6 relative overflow-hidden shadow-2xl">
+                        <div className="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 relative overflow-hidden shadow-sm dark:shadow-2xl">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl"></div>
                             <div className="w-full">
                                 <div className="flex items-center gap-2 mb-4">
-                                    <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400">
+                                    <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                                         <Icons.Trophy />
                                     </div>
                                     <div>
-                                        <h2 className="text-base font-bold text-white">Teljesített stratégiai célok archívuma</h2>
-                                        <p className="text-[11px] text-slate-400">Az ügynökség és az ügyfél közösen elért sikerei történelmi időrendben</p>
+                                        <h2 className="text-base font-bold text-slate-900 dark:text-white">Teljesített stratégiai célok archívuma</h2>
+                                        <p className="text-[11px] text-slate-500 dark:text-slate-400">Az ügynökség és az ügyfél közösen elért sikerei történelmi időrendben</p>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[500px] overflow-y-auto pr-1">
                                     {(!dbState.completedKpis || dbState.completedKpis.length === 0) ? (
-                                        <div className="col-span-full text-center py-16 border border-dashed border-slate-800 rounded-2xl">
-                                            <p className="text-xs text-slate-500">Még nincs archivált teljesített célunk. Dolgozzunk együtt a sikerekért! 🚀</p>
+                                        <div className="col-span-full text-center py-16 border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
+                                            <p className="text-xs text-slate-550 dark:text-slate-500">Még nincs archivált teljesített célunk. Dolgozzunk együtt a sikerekért! 🚀</p>
                                         </div>
                                     ) : (
                                         dbState.completedKpis.map(kpi => (
-                                            <div key={kpi.id} className="bg-slate-950/60 p-4 rounded-xl border border-emerald-500/20 hover:border-emerald-500/40 transition duration-150 flex flex-col justify-between group/kpi">
+                                            <div key={kpi.id} className="bg-slate-50 dark:bg-slate-950/60 p-4 rounded-xl border border-emerald-555/20 hover:border-emerald-500/40 transition duration-150 flex flex-col justify-between group/kpi">
                                                 <div className="space-y-2">
                                                     <div className="flex justify-between items-center">
-                                                        <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                                        <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                                                             Sikeresen Teljesítve
                                                         </span>
-                                                        <span className="text-[10px] text-slate-500 font-mono font-bold">{kpi.completedAt}</span>
+                                                        <span className="text-[10px] text-slate-505 font-mono font-bold">{kpi.completedAt}</span>
                                                     </div>
-                                                    <h3 className="text-sm font-bold text-white leading-snug">{kpi.mainGoal}</h3>
-                                                    <div className="bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/80">
-                                                        <p className="text-xs text-slate-400 leading-normal">
+                                                    <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-snug">{kpi.mainGoal}</h3>
+                                                    <div className="bg-white dark:bg-slate-900/40 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80">
+                                                        <p className="text-xs text-slate-505 dark:text-slate-400 leading-normal">
                                                             {kpi.metricName}:
                                                         </p>
-                                                        <p className="text-sm font-black text-emerald-400 font-mono mt-0.5">
-                                                            {kpi.current}{kpi.unit} 
-                                                            <span className="text-xs font-normal text-slate-500 ml-1">
-                                                                (Cél: {kpi.target}{kpi.unit})
+                                                        <p className="text-sm font-black text-emerald-600 dark:text-emerald-400 font-mono mt-0.5">
+                                                            {kpi.current || 0}{kpi.unit} 
+                                                            <span className="text-xs font-normal text-slate-505 ml-1">
+                                                                (Cél: {kpi.target || 0}{kpi.unit})
                                                             </span>
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <div className="flex justify-end mt-4 pt-2 border-t border-slate-900/50">
+                                                <div className="flex justify-end mt-4 pt-2 border-t border-slate-100 dark:border-slate-900/50">
                                                     <button 
                                                         onClick={() => handleDeleteCompletedKpi(kpi.id)}
-                                                        className="opacity-0 group-hover/kpi:opacity-100 text-slate-500 hover:text-rose-400 transition duration-150 p-1.5 hover:bg-rose-500/10 rounded-lg text-xs flex items-center gap-1 font-semibold"
+                                                        className="opacity-0 group-hover/kpi:opacity-100 text-slate-550 hover:text-rose-500 transition duration-150 p-1.5 hover:bg-rose-500/10 rounded-lg text-xs flex items-center gap-1 font-semibold"
                                                     >
                                                         <Icons.Trash />
                                                         Törlés az archívumból
@@ -1957,7 +2115,7 @@
             render() {
                 if (this.state.hasError) {
                     return (
-                        <div className="min-h-screen bg-slate-950 text-slate-200 flex flex-col justify-center items-center p-6 text-center">
+                        <div className="min-h-screen bg-slate-955 text-slate-200 flex flex-col justify-center items-center p-6 text-center">
                             <div className="max-w-md bg-slate-900 border border-rose-500/30 p-8 rounded-2xl shadow-2xl">
                                 <h1 className="text-rose-400 font-bold text-xl mb-4">Hiba történt a megjelenítés során</h1>
                                 <p className="text-slate-400 text-sm mb-4">
